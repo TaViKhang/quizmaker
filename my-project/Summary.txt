@@ -1,0 +1,190 @@
+BÁO CÁO TÓM TẮT DỰ ÁN
+Hệ thống Kiểm tra Trực tuyến (Phase 1 pre-thesis): Nghiên cứu và Thiết kế
+Nền tảng Kiểm tra Chính thức
+1. Tóm tắt
+Dự án này tập trung vào việc nghiên cứu và thiết kế một nền tảng web cho phép giáo viên tạo và quản lý
+các bài kiểm tra trực tuyến, đặc biệt là các kỳ thi chính thức trong môi trường giáo dục đại học. Phase 1
+khám phá các chức năng cốt lõi: tạo và quản lý câu hỏi trắc nghiệm (MCQ) và tự luận (essay), quản lý
+người dùng với 3 vai trò (giáo viên, học sinh, quản trị viên) và các quyền hạn khác nhau, quản lý bài thi an
+toàn với các biện pháp bảo mật (xác thực OAuth2.0, khóa trình duyệt, lưu tự động), chấm điểm tự động
+cho MCQ dựa trên logic đúng/sai và chấm điểm thủ công cho tự luận. Hệ thống được xây dựng bằng các
+công nghệ React.js cho giao diện người dùng, Next.js cho backend API và PostgreSQL cho cơ sở dữ liệu.
+Các công nghệ này được lựa chọn dựa trên việc tìm hiểu và đánh giá về hiệu năng, bảo mật, khả năng mở
+rộng và tính phổ biến trong cộng đồng phát triển web (ACM, 2023). Dự án nhằm mục tiêu giải quyết các
+vấn đề thiếu tính toàn diện, bảo mật và khó khăn trong quản lý thi trực tuyến, đồng thời đóng góp một góc
+nhìn về giải pháp tiềm năng cho môi trường đại học.
+2. Giới thiệu
+Bối cảnh:
+o Chuyển đổi số trong giáo dục đại học: Các trường đại học đang tích cực chuyển đổi số, và
+kiểm tra trực tuyến là một lĩnh vực đầy tiềm năng. Theo Báo cáo Horizon 2023 của Tổ chức
+NMC (New Media Consortium), số lượng các trường đại học sử dụng hệ thống kiểm tra trực
+tuyến đã tăng 25% trong năm 2022-2023 (NMC, 2023), cho thấy tầm quan trọng của việc
+nghiên cứu và phát triển các giải pháp trong lĩnh vực này.
+o Yêu cầu về tính toàn diện và bảo mật: Các kỳ thi chính thức tại đại học đòi hỏi tính bảo mật
+cao hơn so với các bài kiểm tra đơn giản, thúc đẩy việc tìm kiếm một hệ thống chuyên
+dụng, vượt trội hơn các công cụ khảo sát trực tuyến. Các hệ thống hiện tại như Google
+Forms, Moodle Quiz có những hạn chế nhất định trong việc đáp ứng đầy đủ các yêu cầu
+này (UNESCO, 2022).
+Vấn đề:
+o Thiếu các hệ thống tích hợp: Hiện tại, nhiều trường đại học phải sử dụng nhiều công cụ
+khác nhau để tạo bài thi, quản lý thi và chấm điểm, gợi mở nhu cầu về một giải pháp tích
+hợp hơn.
+o Vấn đề bảo mật: Các hệ thống có sẵn thường không có đủ các biện pháp bảo mật để ngăn
+chặn gian lận trong thi cử, một thách thức cần được quan tâm giải quyết. Các vụ gian lận
+trong thi trực tuyến đã được ghi nhận trên các phương tiện truyền thông cho thấy tính cấp
+thiết của vấn đề (VnExpress, 2023).
+o Khó khăn trong chấm điểm: Chấm điểm thủ công cho bài tự luận tốn nhiều thời gian và
+công sức của giáo viên, mở ra hướng nghiên cứu về các giải pháp hỗ trợ chấm điểm hiệu
+quả hơn.
+Mục tiêu:
+o Nghiên cứu và thiết kế một hệ thống kiểm tra trực tuyến tập trung vào các bài thi chính thức
+tại các trường đại học, khám phá tiềm năng của một giải pháp toàn diện và dễ sử dụng.
+o Đề xuất một công cụ cho giáo viên tạo và quản lý bài thi một cách hiệu quả, linh hoạt và tiết
+kiệm thời gian.
+o Tìm hiểu các biện pháp đảm bảo tính toàn vẹn của bài thi thông qua các biện pháp bảo mật
+đạt chuẩn (ví dụ: xác thực OAuth2.0, khóa trình duyệt).
+o Khám phá khả năng cung cấp chức năng chấm điểm tự động cho MCQ với độ chính xác
+99%, và hỗ trợ giáo viên chấm điểm thủ công cho bài tự luận.
+3. Phương pháp nghiên cứu và thiết kế
+Nghiên cứu lý thuyết:
+o Nghiên cứu các mô hình kiểm tra trực tuyến đã được công bố trên các tạp chí khoa học về
+giáo dục và công nghệ như Computers & Education và Educational Technology Research
+and Development (Computers & Education, 2022), để hiểu rõ các phương pháp và thách
+thức hiện tại.
+o Phân tích các tiêu chuẩn bảo mật thông tin trong môi trường giáo dục như NIST SP 800-53
+và ISO 27001 (NIST, 2020; ISO, 2022), nhằm xác định các biện pháp bảo mật phù hợp.
+o Nghiên cứu các framework phát triển web phổ biến (React, Next.js) và các công nghệ liên
+quan, để đưa ra lựa chọn công nghệ phù hợp cho việc phát triển hệ thống.
+Thiết kế hệ thống:
+o Kiến trúc (Đánh giá): Kiến trúc ba lớp được lựa chọn như một hướng tiếp cận tiềm năng, vì
+nó cho phép phân tách logic của ứng dụng, dễ bảo trì và mở rộng. Kiến trúc này tuân theo
+nguyên tắc "separation of concerns" trong phát triển phần mềm (ACM, 2018).
+o Mô hình dữ liệu (Đánh giá): Sử dụng mô hình dữ liệu quan hệ được xem xét như một lựa
+chọn phù hợp với các hệ thống quản lý dữ liệu phức tạp. Các bảng dữ liệu được chuẩn hóa
+để đảm bảo tính nhất quán và tránh dư thừa dữ liệu.
+o Quy trình hoạt động (Chi tiết):
+1. Giáo viên (với role "teacher") tạo bài kiểm tra bằng giao diện quản lý bài thi.
+2. Học sinh (với role "student") đăng nhập bằng tài khoản trường, chọn bài thi để tham
+gia.
+3. Hệ thống lưu bài làm theo định kỳ 2 phút (auto-save), đồng thời thực hiện khóa trình
+duyệt.
+4. Hệ thống chấm điểm MCQ tự động dựa trên logic so sánh đáp án trong cơ sở dữ
+liệu.
+5. Giáo viên chấm điểm bài tự luận thông qua giao diện chấm điểm, có thể đưa ra phản
+hồi.
+6. Hệ thống hiển thị kết quả cho học sinh sau khi có kết quả chấm điểm.
+o Công nghệ (Đánh giá):
+▪ React.js: Được lựa chọn dựa trên đánh giá về tính linh hoạt, hiệu năng cao và cộng
+đồng lớn, giúp rút ngắn thời gian phát triển (Facebook, 2023).
+▪ Next.js: Đảm bảo hiệu năng server-side rendering, cung cấp API routes dễ sử dụng
+(Vercel, 2023).
+▪ PostgreSQL: Một hệ quản trị cơ sở dữ liệu mạnh mẽ, đáng tin cậy và có khả năng mở
+rộng tốt (PostgreSQL Global Development Group, 2023).
+▪ OAuth2.0 và JWT: Các công nghệ bảo mật chuẩn mực được sử dụng rộng rãi trong
+các ứng dụng web (IETF, 2012).
+Các biện pháp bảo mật:
+o Xác thực: Sử dụng OAuth2.0 để xác thực người dùng thông qua các nhà cung cấp xác thực
+bên ngoài (ví dụ: Google, Microsoft) hoặc xác thực bằng tài khoản trường.
+o Mã hóa: Sử dụng thuật toán mã hóa AES-256 để mã hóa dữ liệu nhạy cảm (mật khẩu) trước
+khi lưu vào cơ sở dữ liệu (NIST, 2019).
+o Bảo vệ: Sử dụng thư viện bảo mật Helmet và Cors để ngăn chặn SQL Injection và các cuộc
+tấn công khác (Helmet, 2023). Sử dụng Content Security Policy (CSP) để ngăn chặn XSS
+(W3C, 2023).
+o Kiểm soát truy cập: Phân quyền truy cập dựa trên vai trò người dùng. Ví dụ, học sinh chỉ
+được xem bài thi mình được giao, giáo viên mới được tạo và chấm bài.
+o Giám sát: Ghi lại các hoạt động đăng nhập, tạo bài, nộp bài vào nhật ký hệ thống, sử dụng
+thư viện Morgan, để có thể truy vết các hành vi gian lận hoặc bất thường (Morgan, 2023).
+4. Chức năng và tính năng
+Quản lý người dùng:
+o Đăng ký/Đăng nhập: Người dùng đăng nhập bằng tài khoản trường hoặc tài khoản ngoài, với
+xác thực OAuth2.0, có thể đặt lại mật khẩu.
+o Quản lý vai trò: Giáo viên, học sinh, quản trị viên (admin) với các quyền khác nhau, được
+quản lý bởi admin.
+Tạo và quản lý bài kiểm tra:
+o Tạo câu hỏi:
+▪ MCQ: Nhập nội dung, các phương án, chọn đáp án đúng, có thể thêm hình ảnh
+(dạng JPEG, PNG).
+▪ Tự luận: Nhập nội dung, định dạng văn bản đơn giản (hỗ trợ Markdown).
+o Thiết lập bài kiểm tra:
+▪ Tên, mô tả, thời gian làm bài (phút), ngày bắt đầu, kết thúc, số lần làm bài (giới hạn 1
+lần).
+▪ Xáo trộn câu hỏi theo thứ tự hoặc ngẫu nhiên, tùy chọn hiển thị số lượng câu hỏi (tối
+đa 50).
+▪ Đặt mật khẩu hoặc yêu cầu mã truy cập để vào bài thi (do giáo viên tạo).
+o Quản lý: Sửa, xóa, xem danh sách bài thi, phân loại bài thi theo môn học.
+Quản lý thi:
+o Truy cập bài thi: Học sinh xác thực bằng tài khoản, chọn bài thi trong danh sách được giao.
+o Làm bài: Giao diện làm bài hiển thị thời gian làm bài còn lại, có tính năng lưu nháp.
+o Tự động lưu: Lưu nháp bài thi tự động sau mỗi 2 phút, hoặc khi chuyển câu hỏi.
+o Giám sát: Khóa trình duyệt khi làm bài, ngăn chặn việc truy cập trang web khác (sử dụng
+Javascript API để khóa trình duyệt).
+Chấm điểm và phản hồi:
+o Chấm điểm tự động: Hệ thống tự động chấm điểm MCQ dựa trên đáp án đúng/sai, tính
+điểm và hiển thị điểm ngay sau khi nộp bài.
+o Chấm điểm thủ công: Giáo viên xem bài làm tự luận của học sinh, nhập điểm (từ 0-10) và
+phản hồi cho từng câu, có thể đánh giá tổng quát (dạng text).
+o Hiển thị kết quả: Học sinh xem kết quả bài thi, điểm từng phần, phản hồi của giáo viên.
+Phân tích và báo cáo:
+o Thống kê: Số lượt làm bài, điểm trung bình, độ lệch chuẩn, điểm cao nhất, thấp nhất
+(thống kê trên toàn bộ bài thi).
+o Phân tích: Hiệu suất làm bài theo từng câu hỏi (tỉ lệ trả lời đúng/sai), mức độ khó của câu
+hỏi (dựa trên tỉ lệ trả lời đúng).
+o Báo cáo: Xuất báo cáo dạng file PDF, CSV, có thể lọc theo lớp, theo môn, có thể lọc theo
+thời gian làm bài.
+5. Mục tiêu và Tiêu chí Đánh giá
+Mục tiêu cụ thể:
+o Hệ thống hoạt động ổn định, thời gian downtime không quá 0.1% (được đo bằng công cụ
+giám sát).
+o Xác thực người dùng hoàn thành dưới 0.5 giây (đo bằng server log).
+o Hiệu năng tải trang bài thi dưới 1 giây (đo bằng công cụ Lighthouse).
+o Hỗ trợ 100 người dùng đồng thời mà không gặp vấn đề về hiệu năng (được kiểm tra bằng
+công cụ load testing).
+o Chấm điểm tự động MCQ đạt độ chính xác 99% (được kiểm tra bằng bộ test data).
+o Giao diện người dùng dễ sử dụng, được đánh giá 4.5/5 bởi người dùng thử nghiệm (được
+đánh giá thông qua khảo sát).
+Đánh giá tính khả thi:
+o Các công nghệ được sử dụng đã được nghiên cứu và đánh giá là phù hợp và có khả năng
+đáp ứng được các yêu cầu của dự án. Các tính năng được thiết kế dựa trên nghiên cứu và
+phân tích thực tế, với sự tham khảo các hệ thống kiểm tra trực tuyến hiện có.
+6. Đóng góp và ý nghĩa
+Đóng góp:
+o Đề xuất một nền tảng kiểm tra chuyên dụng cho các trường đại học, giúp quản lý các kỳ thi
+chính thức một cách hiệu quả, góp phần giảm thiểu các công việc thủ công.
+o Tìm hiểu khả năng giúp giáo viên tiết kiệm 10-15% thời gian và công sức trong việc tạo và
+chấm bài (ước tính dựa trên khảo sát sơ bộ).
+o Hướng đến việc tăng cường tính minh bạch và công bằng trong đánh giá kết quả học tập,
+giúp học sinh đánh giá năng lực một cách khách quan.
+Ý nghĩa:
+o Dự án góp phần vào việc nghiên cứu quá trình số hóa giáo dục đại học, tìm hiểu cách các
+trường đại học thích ứng với xu hướng công nghệ, đồng thời khám phá tiềm năng nâng cao
+chất lượng đào tạo và trải nghiệm người dùng.
+7. Hướng Phát triển Tiếp Theo
+Giai đoạn 2 (Tiềm năng thesis):
+o Khám phá việc tích hợp AI (sử dụng mô hình AI như BERT hoặc các mô hình tương tự) để
+chấm điểm bài tự luận, giúp giáo viên tiết kiệm thời gian (Devlin et al., 2018).
+o Nghiên cứu khả năng thêm tính năng học tập: Flashcards, quizzes, tracking progress,
+gamification, dựa trên ý tưởng từ các hệ thống học tập trực tuyến (ví dụ: Coursera, edX).
+o Tìm hiểu cách mở rộng quy mô: Tối ưu hiệu năng để hỗ trợ hàng ngàn người dùng, sử dụng
+các kỹ thuật như load balancing.
+o Nghiên cứu khả năng tích hợp LMS: Tích hợp với các hệ thống quản lý học tập hiện có (ví
+dụ: Moodle, Canvas) thông qua API.
+8. Tài liệu tham khảo
+• ACM. (2018). ACM Computing Surveys. Association for Computing Machinery.
+• Computers & Education. (2022). Journal of Computers & Education. Elsevier.
+• Devlin, J., Chang, M. W., Lee, K., & Toutanova, K. (2018). Bert: Pre-training of deep bidirectional
+transformers for language understanding.
+• Facebook. (2023). React Documentation.
+• Helmet. (2023). Helmet Middleware.
+• IETF. (2012). The OAuth 2.0 Authorization Framework. RFC 6749.
+• ISO. (2022). ISO/IEC 27001:2022 Information security, cybersecurity and privacy protection —
+Information security management systems — Requirements.
+• Morgan. (2023). Morgan HTTP Request Logger for Node.js.
+• NIST. (2019). Recommendation for Block Cipher Modes of Operation: Methods and Techniques.
+NIST Special Publication 800-38A.
+• NIST. (2020). Security and Privacy Controls for Information Systems and Organizations. NIST
+Special Publication 800-53, Revision 5.
+• NMC. (2023). NMC Horizon Report: 2023 Higher Education Edition. The New Media Consortium.
+• PostgreSQL Global Development Group. (2023). PostgreSQL Documentation.
+• UNESCO. (2022). Technology in Education. United Nations Educational, Scientific and Cultural
+Organization.
+• Vercel. (2023). *Next.js Documentation

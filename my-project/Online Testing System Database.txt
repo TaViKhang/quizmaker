@@ -1,0 +1,48 @@
+Online Testing System Database
+1. Database Structure
+The system is built on a robust PostgreSQL database with the following key tables:
+1.	users: Stores user information and authentication details
+2.	accounts: Manages OAuth provider accounts for users
+3.	sessions: Tracks user sessions for secure access
+4.	verification_tokens: Handles email verification process
+5.	quizzes: Stores quiz metadata and settings
+6.	questions: Contains individual questions for each quiz
+7.	options: Stores answer options for multiple-choice questions
+8.	quiz_attempts: Tracks each attempt a user makes on a quiz
+9.	answers: Records user responses for each question in an attempt
+10.	certificates: Manages certificates issued for successful quiz completions
+2. Key Features
+2.1 User Management
+•	Secure user authentication with email/password and OAuth support
+•	Role-based access control (admin, instructor, student)
+•	Email verification for new user accounts
+2.2 Quiz Creation and Management
+•	Instructors can create and manage quizzes
+•	Support for multiple question types (multiple-choice, true/false, short answer)
+•	Customizable quiz settings (time limit, passing score, attempt limits)
+•	Option to randomize question order
+2.3 Quiz Taking
+•	Students can attempt quizzes multiple times (based on settings)
+•	Timed quizzes with automatic submission
+•	Instant feedback on quiz completion
+2.4 Result Analysis
+•	Detailed tracking of each quiz attempt
+•	Score calculation and pass/fail determination
+•	Certificate generation for successful completions
+3. System Performance
+3.1 Database Optimization
+•	Use of UUIDs for primary keys to ensure uniqueness and improve scalability
+•	Indexing on frequently queried columns for faster data retrieval
+•	Proper use of foreign key constraints to maintain data integrity
+3.2 Security Measures
+•	Token-based authentication for sessions
+•	OAuth integration for third-party authentication
+4. Key Dependencies:
+•	Users are the central entity that interact with the rest of the system. They can create quizzes, take quiz attempts, and have associated OAuth accounts.
+•	Quizzes contain Questions, which in turn have Options for multiple-choice questions.
+•	QuizAttempts are linked to Users and Quizzes, and contain Answers that reference Questions and Options.
+•	Certificates are generated for successful QuizAttempts.
+•	VerificationTokens are used to confirm user email addresses during registration.
+•	Sessions manage user authentication and authorization.
+
+

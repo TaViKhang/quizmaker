@@ -1,0 +1,90 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id            String         @id @default(cuid())
+  name          String?
+  email         String        @unique
+  password      String?
+  role          Role          @default(STUDENT)
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+  quizzes       Quiz[]        @relation("CreatedQuizzes")
+  attempts      QuizAttempt[]
+}
+
+model Quiz {
+  id          String        @id @default(cuid())
+  title       String
+  description String?
+  timeLimit   Int          // minutes
+  authorId    String
+  author      User         @relation("CreatedQuizzes", fields: [authorId], references: [id])
+  questions   Question[]
+  attempts    QuizAttempt[]
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+  isActive    Boolean      @default(true)
+}
+
+model Question {
+  id          String    @id @default(cuid())
+  quizId      String
+  quiz        Quiz      @relation(fields: [quizId], references: [id])
+  content     String
+  type        QuestionType
+  options     Option[]
+  answers     Answer[]
+  points      Int       @default(1)
+  order       Int
+}
+
+model Option {
+  id          String    @id @default(cuid())
+  questionId  String
+  question    Question  @relation(fields: [questionId], references: [id])
+  content     String
+  isCorrect   Boolean
+  order       Int
+}
+
+model QuizAttempt {
+  id          String    @id @default(cuid())
+  quizId      String
+  quiz        Quiz      @relation(fields: [quizId], references: [id])
+  userId      String
+  user        User      @relation(fields: [userId], references: [id])
+  startedAt   DateTime  @default(now())
+  completedAt DateTime?
+  answers     Answer[]
+  score       Float?
+}
+
+model Answer {
+  id            String      @id @default(cuid())
+  attemptId     String
+  attempt       QuizAttempt @relation(fields: [attemptId], references: [id])
+  questionId    String
+  question      Question    @relation(fields: [questionId], references: [id])
+  selectedOption String?    // For MCQ
+  textAnswer    String?     // For essay
+  isCorrect     Boolean?
+  score         Float?
+}
+
+enum Role {
+  ADMIN
+  TEACHER
+  STUDENT
+}
+
+enum QuestionType {
+  MULTIPLE_CHOICE
+  ESSAY
+}
