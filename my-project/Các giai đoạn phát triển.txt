@@ -1,0 +1,53 @@
+Các giai đoạn phát triển
+Giai đoạn 1: Thiết lập & Authentication (Sprint 1-2)
+Sprint 1: Thiết lập dự án cơ bản
+[x] Đã thiết lập Prisma schema
+[ ] Cấu hình CI/CD cơ bản với GitHub Actions
+[ ] Thiết lập layout cơ bản với Next.js App Router
+[ ] Cấu hình ShadcnUI và theme
+[ ] Cài đặt Tailwind CSS
+Sprint 2: Authentication & User Management
+[ ] Triển khai NextAuth.js
+[ ] Thiết lập OAuth2 provider (Google)
+[ ] Tạo trang đăng nhập/đăng ký
+[ ] Triển khai hệ thống phân quyền (RBAC)
+[ ] Tạo trang quản lý profile cơ bản
+Giai đoạn 2: Quản lý Quiz & Câu hỏi (Sprint 3-4)
+Sprint 3: Dashboard & Quiz Management
+[ ] Tạo dashboard cho giáo viên
+[ ] Triển khai CRUD cho quiz
+[ ] Thiết kế form tạo/chỉnh sửa quiz
+[ ] Triển khai API quản lý quiz
+[ ] Tạo trang danh sách quiz
+Sprint 4: Question Management
+[ ] Triển khai CRUD cho câu hỏi
+[ ] Tạo form MCQ với validation
+[ ] Tạo form Essay với rich text editor
+[ ] Triển khai API quản lý câu hỏi
+[ ] Chức năng sắp xếp câu hỏi
+Giai đoạn 3: Làm bài & Chấm điểm (Sprint 5-6)
+Sprint 5: Quiz Taking Interface
+[ ] Tạo UI làm bài quiz
+[ ] Triển khai hệ thống Auto-save
+[ ] Thiết kế UI hiển thị thời gian làm bài
+[ ] Xử lý nộp bài
+[ ] Cảnh báo rời trang khi chưa lưu
+Sprint 6: Grading & Results
+[ ] Triển khai chấm điểm tự động MCQ
+[ ] Tạo UI chấm điểm tự luận cho giáo viên
+[ ] Thiết kế trang kết quả cho học sinh
+[ ] API cho việc chấm điểm và cập nhật
+[ ] Hiển thị phản hồi chi tiết
+Giai đoạn 4: Phân tích & Hoàn thiện (Sprint 7-8)
+Sprint 7: Analytics & Reporting
+[ ] Triển khai phân tích độ khó câu hỏi
+[ ] Tạo biểu đồ thống kê kết quả
+[ ] Hiển thị thông tin về hiệu suất quiz
+[ ] Xuất báo cáo PDF đơn giản
+[ ] Trang tổng quan phân tích
+Sprint 8: Kiểm thử & Hoàn thiện
+[ ] Viết unit tests cho các chức năng chính
+[ ] Thực hiện kiểm thử người dùng
+[ ] Sửa lỗi và cải thiện UX
+[ ] Hoàn thiện tài liệu kỹ thuật
+[ ] Chuẩn bị demo và báo cáo

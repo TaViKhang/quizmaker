@@ -1,24 +1,78 @@
-import { Button } from "@/components/ui/button"
-import { Card, CardContent } from "@/components/ui/card"
-import { Badge } from "@/components/ui/badge"
-import { ArrowRight, Shield, Globe, Clock } from 'lucide-react'
-import Image from "next/image"
+"use client"
 
-export function HeroSection() {
+import { Button } from "@/components/ui/button"
+import { Badge } from "@/components/ui/badge"
+import { ArrowRight } from 'lucide-react'
+import { useEffect, useState } from "react"
+
+// Component for the background image overlay with color effect
+function ImageOverlay() {
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const images = [
+    "/images/carousel/education-1.jpg",
+    "/images/carousel/education-2.jpg",
+    "/images/carousel/education-3.jpg",
+    "/images/carousel/education-4.jpg"
+  ];
+
+  // Change image every 5 seconds
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentImageIndex((prevIndex) => (prevIndex + 1) % images.length);
+    }, 5000);
+    
+    return () => clearInterval(interval);
+  }, []);
 
   return (
-    <div className="relative">
-      <div className="absolute inset-0 bg-gradient-to-r from-blue-100 to-blue-50 opacity-70" />
-      <div className="relative container px-4 py-24 md:py-32">
+    <div className="absolute inset-0 overflow-hidden">
+      {images.map((src, index) => (
+        <div
+          key={src}
+          className="absolute inset-0 transition-opacity duration-1000 ease-in-out"
+          style={{
+            opacity: index === currentImageIndex ? 1 : 0,
+            backgroundImage: `url(${src})`,
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+          }}
+        />
+      ))}
+      {/* Color overlay with gradient */}
+      <div className="absolute inset-0 bg-gradient-to-r from-blue-900/70 to-indigo-900/70 mix-blend-multiply" />
+      
+      {/* Image indicators */}
+      <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-2 z-10">
+        {images.map((_, index) => (
+          <button
+            key={index}
+            className={`w-2 h-2 rounded-full transition-all ${
+              index === currentImageIndex ? 'bg-white w-4' : 'bg-white/50'
+            }`}
+            onClick={() => setCurrentImageIndex(index)}
+            aria-label={`Show image ${index + 1}`}
+          />
+        ))}
+      </div>
+    </div>
+  );
+}
+
+export function HeroSection() {
+  return (
+    <section id="home" className="relative min-h-screen flex items-center">
+      <ImageOverlay />
+      
+      <div className="relative container px-4 w-full">
         <div className="flex flex-col items-center text-center space-y-8 max-w-4xl mx-auto">
           <Badge variant="secondary" className="mb-4">
             Trusted by 2000+ Organizations Worldwide
           </Badge>
-          <h1 className="text-4xl md:text-6xl font-bold tracking-tight">
+          <h1 className="text-4xl md:text-6xl font-bold tracking-tight text-white">
             Secure Online Testing
-            <span className="block text-blue-600">for Global Teams</span>
+            <span className="block text-blue-200">for Global Teams</span>
           </h1>
-          <p className="text-xl text-muted-foreground max-w-[42rem]">
+          <p className="text-xl text-gray-200 max-w-[42rem]">
             TestPro helps thousands of organizations deliver secure, scalable online assessments. Get our all-in-one platform that simplifies test creation, delivery, and analysis.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 w-full justify-center">
@@ -26,62 +80,13 @@ export function HeroSection() {
               Get started
               <ArrowRight className="ml-2 h-4 w-4" />
             </Button>
-            <Button size="lg" variant="outline" className="w-full sm:w-auto">
+            <Button size="lg" variant="outline" className="w-full sm:w-auto bg-white/10 text-white hover:bg-white/20 hover:text-white">
               View pricing
             </Button>
           </div>
         </div>
-
-        <div className="mt-20 grid md:grid-cols-3 gap-8">
-          <Card>
-            <CardContent className="pt-6">
-              <div className="flex items-center space-x-4">
-                <Shield className="h-8 w-8 text-blue-600" />
-                <div>
-                  <h3 className="font-semibold">Secure Testing</h3>
-                  <p className="text-sm text-muted-foreground">Advanced proctoring & fraud prevention</p>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-          <Card>
-            <CardContent className="pt-6">
-              <div className="flex items-center space-x-4">
-                <Globe className="h-8 w-8 text-blue-600" />
-                <div>
-                  <h3 className="font-semibold">Global Reach</h3>
-                  <p className="text-sm text-muted-foreground">Available in 100+ countries</p>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-          <Card>
-            <CardContent className="pt-6">
-              <div className="flex items-center space-x-4">
-                <Clock className="h-8 w-8 text-blue-600" />
-                <div>
-                  <h3 className="font-semibold">24/7 Support</h3>
-                  <p className="text-sm text-muted-foreground">Round-the-clock assistance</p>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-        </div>
-
-        <div className="mt-20">
-          <div className="relative rounded-lg overflow-hidden border bg-background">
-            <div className="absolute inset-0 bg-gradient-to-r from-blue-500/10 to-purple-500/10" />
-            <Image
-              src="/./images/Homepage.png"
-              width={1200}
-              height={600}
-              alt="TestPro Dashboard"
-              className="relative rounded-lg shadow-2xl"
-            />
-          </div>
-        </div>
       </div>
-    </div>
+    </section>
   )
 }
 

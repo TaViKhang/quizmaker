@@ -4,31 +4,31 @@ import { BarChart, Lock, Users, FileText, Settings, Globe2, Clock, Shield } from
 
 export function FeaturesSection() {
   return (
-    <section className="container py-24 space-y-16">
-      <div className="text-center space-y-4">
-        <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">
+    <section id="solutions" className="container px-4 py-16 md:py-24 min-h-screen flex flex-col justify-center">
+      <div className="text-center space-y-3 md:space-y-4 mb-8 md:mb-12">
+        <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold tracking-tight">
           Everything you need for online testing
         </h2>
-        <p className="text-xl text-muted-foreground">
+        <p className="text-base md:text-lg lg:text-xl text-muted-foreground max-w-3xl mx-auto">
           Comprehensive features to create, deliver, and analyze tests securely
         </p>
       </div>
 
-      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 lg:gap-8">
         {features.map((feature) => (
           <Card key={feature.title}>
-            <CardHeader>
+            <CardHeader className="pb-2">
               <div className="flex items-center space-x-4">
-                <div className="p-2 bg-primary/10 rounded-lg">
-                  <feature.icon className="h-6 w-6 text-primary" />
+                <div className="p-2 bg-primary/10 rounded-lg shrink-0">
+                  <feature.icon className="h-5 w-5 md:h-6 md:w-6 text-primary" />
                 </div>
                 <div>
-                  <CardTitle className="text-xl">{feature.title}</CardTitle>
+                  <CardTitle className="text-lg md:text-xl">{feature.title}</CardTitle>
                 </div>
               </div>
             </CardHeader>
             <CardContent>
-              <CardDescription className="text-base">{feature.description}</CardDescription>
+              <CardDescription className="text-sm md:text-base">{feature.description}</CardDescription>
             </CardContent>
           </Card>
         ))}
