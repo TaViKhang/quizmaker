@@ -4,7 +4,7 @@ import { BarChart, Lock, Users, FileText, Settings, Globe2, Clock, Shield } from
 
 export function FeaturesSection() {
   return (
-    <section id="solutions" className="container px-4 py-16 md:py-24 min-h-screen flex flex-col justify-center">
+    <section id="solutions" className="container mx-auto px-4 md:px-6 lg:px-8 py-16 md:py-24 min-h-screen flex flex-col justify-center">
       <div className="text-center space-y-3 md:space-y-4 mb-8 md:mb-12">
         <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold tracking-tight">
           Everything you need for online testing

@@ -8,7 +8,7 @@ export function DashboardPreview() {
       id="features" 
       className="py-12 md:py-16 min-h-screen flex flex-col justify-center bg-gray-50 dark:bg-gray-900"
     >
-      <div className="container px-4">
+      <div className="container mx-auto px-4 md:px-6 lg:px-8">
         <div className="max-w-4xl mx-auto text-center mb-8 md:mb-12">
           <h2 className="text-2xl md:text-3xl font-bold tracking-tight">
             Powerful Dashboard for All Your Testing Needs

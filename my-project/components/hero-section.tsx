@@ -63,7 +63,7 @@ export function HeroSection() {
     <section id="home" className="relative min-h-screen flex items-center">
       <ImageOverlay />
       
-      <div className="relative container px-4 w-full">
+      <div className="relative container mx-auto px-4 md:px-6 lg:px-8 w-full">
         <div className="flex flex-col items-center text-center space-y-8 max-w-4xl mx-auto">
           <Badge variant="secondary" className="mb-4">
             Trusted by 2000+ Organizations Worldwide

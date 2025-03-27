@@ -19,11 +19,13 @@ import {
   Sheet,
   SheetContent,
   SheetTrigger,
+  SheetTitle,
 } from "@/components/ui/sheet"
 
 export function SiteHeader() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mounted, setMounted] = useState(false);
+  const [sheetOpen, setSheetOpen] = useState(false);
   const { theme } = useTheme();
   
   // Mark component as mounted
@@ -57,6 +59,12 @@ export function SiteHeader() {
   // Function to handle section navigation without changing URL hash
   const scrollToSection = (sectionId: string) => (e: React.MouseEvent) => {
     e.preventDefault();
+    
+    // Close mobile menu if open
+    if (sheetOpen) {
+      setSheetOpen(false);
+    }
+    
     const element = document.getElementById(sectionId);
     if (element) {
       window.scrollTo({
@@ -85,10 +93,10 @@ export function SiteHeader() {
         headerBgClass
       )}
     >
-      <div className="container flex h-16 items-center px-8 sm:px-10 md:px-16 lg:px-24">
-        <div className="w-full grid grid-cols-3 items-center gap-4">
+      <div className="container mx-auto flex h-16 items-center px-4 sm:px-6 lg:px-8">
+        <div className="w-full flex items-center justify-between">
           {/* Phần 1: Logo và thương hiệu */}
-          <div className="flex justify-start">
+          <div className="flex">
             <Link 
               href="/"
               className="flex items-center space-x-2"
@@ -104,89 +112,8 @@ export function SiteHeader() {
           </div>
 
           {/* Phần 2: Menu chính */}
-          <div className="flex justify-center">
-            {/* Menu mobile */}
-            <div className="flex md:hidden justify-center">
-              <Sheet>
-                <SheetTrigger asChild>
-                  <Button 
-                    variant="ghost" 
-                    size="icon" 
-                    className={cn(
-                      "h-9 w-9",
-                      isScrolled ? "" : "text-white hover:bg-white/10"
-                    )}
-                  >
-                    <MenuIcon className="h-5 w-5" />
-                    <span className="sr-only">Open main menu</span>
-                  </Button>
-                </SheetTrigger>
-                <SheetContent side="left" className="w-64 sm:w-80">
-                  <div className="flex flex-col space-y-6 mt-8">
-                    <div className="flex items-center mb-6">
-                      <span className="text-xl font-bold">Menu</span>
-                    </div>
-                    <nav className="flex flex-col space-y-4">
-                      <Link 
-                        href="/"
-                        className="flex items-center py-2 text-sm font-medium transition-colors"
-                        onClick={(e) => {
-                          scrollToSection('home')(e);
-                        }}
-                      >
-                        Home
-                      </Link>
-                      <Link 
-                        href="/"
-                        className="flex items-center py-2 text-sm font-medium transition-colors"
-                        onClick={(e) => {
-                          scrollToSection('features')(e);
-                        }}
-                      >
-                        Features
-                      </Link>
-                      <Link 
-                        href="/"
-                        className="flex items-center py-2 text-sm font-medium transition-colors"
-                        onClick={(e) => {
-                          scrollToSection('solutions')(e);
-                        }}
-                      >
-                        Solutions
-                      </Link>
-                      <div className="border-t border-border my-2 pt-2">
-                        <span className="text-sm font-medium mb-2 block">Platform</span>
-                        <div className="ml-3 flex flex-col space-y-2 mt-1">
-                          <Link href="/" className="text-sm">Online Testing Platform</Link>
-                          <Link href="/test-creation" className="text-sm">Test Creation</Link>
-                          <Link href="/proctoring" className="text-sm">Proctoring</Link>
-                        </div>
-                      </div>
-                      <div className="border-t border-border my-2 pt-2">
-                        <span className="text-sm font-medium mb-2 block">Industries</span>
-                        <div className="ml-3 flex flex-col space-y-2 mt-1">
-                          {solutions.map((solution) => (
-                            <Link 
-                              key={solution.title} 
-                              href={solution.href} 
-                              className="text-sm"
-                            >
-                              {solution.title}
-                            </Link>
-                          ))}
-                        </div>
-                      </div>
-                      <Link href="/pricing" className="flex items-center py-2 text-sm font-medium transition-colors">
-                        Pricing
-                      </Link>
-                    </nav>
-                  </div>
-                </SheetContent>
-              </Sheet>
-            </div>
-
-            {/* Menu desktop */}
-            <NavigationMenu className="hidden md:flex">
+          <div className="hidden md:flex justify-center">
+            <NavigationMenu>
               <NavigationMenuList className={
                 isScrolled ? "" : "text-white"
               }>
@@ -240,11 +167,11 @@ export function SiteHeader() {
                     >
                       Solutions
                     </NavigationMenuLink>
-        </Link>
+                  </Link>
                 </NavigationMenuItem>
 
                 {/* Dropdown menus */}
-            <NavigationMenuItem>
+                <NavigationMenuItem>
                   <NavigationMenuTrigger className={cn(
                     "transition-colors",
                     isScrolled 
@@ -253,47 +180,47 @@ export function SiteHeader() {
                   )}>
                     Platform
                   </NavigationMenuTrigger>
-              <NavigationMenuContent>
-                <ul className="grid gap-3 p-6 md:w-[400px] lg:w-[500px] lg:grid-cols-[.75fr_1fr]">
-                  <li className="row-span-3">
-                    <NavigationMenuLink asChild>
-                      <a
-                        className="flex h-full w-full select-none flex-col justify-end rounded-md bg-gradient-to-b from-muted/50 to-muted p-6 no-underline outline-none focus:shadow-md"
-                        href="/"
-                      >
-                        <div className="mb-2 mt-4 text-lg font-medium">
-                          Online Testing Platform
-                        </div>
-                        <p className="text-sm leading-tight text-muted-foreground">
-                          Secure, scalable testing solution for education and business
-                        </p>
-                      </a>
-                    </NavigationMenuLink>
-                  </li>
-                  <li>
-                    <NavigationMenuLink asChild>
-                      <a href="/test-creation" className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground">
-                        <div className="text-sm font-medium leading-none">Test Creation</div>
-                        <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
-                          Create custom tests with multiple question types
-                        </p>
-                      </a>
-                    </NavigationMenuLink>
-                  </li>
-                  <li>
-                    <NavigationMenuLink asChild>
-                      <a href="/proctoring" className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground">
-                        <div className="text-sm font-medium leading-none">Proctoring</div>
-                        <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
-                          Advanced proctoring features for secure testing
-                        </p>
-                      </a>
-                    </NavigationMenuLink>
-                  </li>
-                </ul>
-              </NavigationMenuContent>
-            </NavigationMenuItem>
-            <NavigationMenuItem>
+                  <NavigationMenuContent>
+                    <ul className="grid gap-3 p-6 md:w-[400px] lg:w-[500px] lg:grid-cols-[.75fr_1fr]">
+                      <li className="row-span-3">
+                        <NavigationMenuLink asChild>
+                          <a
+                            className="flex h-full w-full select-none flex-col justify-end rounded-md bg-gradient-to-b from-muted/50 to-muted p-6 no-underline outline-none focus:shadow-md"
+                            href="/"
+                          >
+                            <div className="mb-2 mt-4 text-lg font-medium">
+                              Online Testing Platform
+                            </div>
+                            <p className="text-sm leading-tight text-muted-foreground">
+                              Secure, scalable testing solution for education and business
+                            </p>
+                          </a>
+                        </NavigationMenuLink>
+                      </li>
+                      <li>
+                        <NavigationMenuLink asChild>
+                          <a href="/test-creation" className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground">
+                            <div className="text-sm font-medium leading-none">Test Creation</div>
+                            <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
+                              Create custom tests with multiple question types
+                            </p>
+                          </a>
+                        </NavigationMenuLink>
+                      </li>
+                      <li>
+                        <NavigationMenuLink asChild>
+                          <a href="/proctoring" className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground">
+                            <div className="text-sm font-medium leading-none">Proctoring</div>
+                            <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
+                              Advanced proctoring features for secure testing
+                            </p>
+                          </a>
+                        </NavigationMenuLink>
+                      </li>
+                    </ul>
+                  </NavigationMenuContent>
+                </NavigationMenuItem>
+                <NavigationMenuItem>
                   <NavigationMenuTrigger className={cn(
                     "transition-colors",
                     isScrolled 
@@ -302,42 +229,149 @@ export function SiteHeader() {
                   )}>
                     Industries
                   </NavigationMenuTrigger>
-              <NavigationMenuContent>
-                <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px]">
-                  {solutions.map((solution) => (
-                    <li key={solution.title}>
-                      <NavigationMenuLink asChild>
-                        <a href={solution.href} className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground">
-                          <div className="text-sm font-medium leading-none">{solution.title}</div>
-                          <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
-                            {solution.description}
-                          </p>
-                        </a>
-                      </NavigationMenuLink>
-                    </li>
-                  ))}
-                </ul>
-              </NavigationMenuContent>
-            </NavigationMenuItem>
-            <NavigationMenuItem>
-              <Link href="/pricing" legacyBehavior passHref>
+                  <NavigationMenuContent>
+                    <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px]">
+                      {solutions.map((solution) => (
+                        <li key={solution.title}>
+                          <NavigationMenuLink asChild>
+                            <a href={solution.href} className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground">
+                              <div className="text-sm font-medium leading-none">{solution.title}</div>
+                              <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
+                                {solution.description}
+                              </p>
+                            </a>
+                          </NavigationMenuLink>
+                        </li>
+                      ))}
+                    </ul>
+                  </NavigationMenuContent>
+                </NavigationMenuItem>
+                <NavigationMenuItem>
+                  <Link href="/pricing" legacyBehavior passHref>
                     <NavigationMenuLink className={cn(
                       "group inline-flex h-10 w-max items-center justify-center rounded-md px-4 py-2 text-sm font-medium transition-colors focus:outline-none disabled:pointer-events-none disabled:opacity-50",
                       isScrolled 
                         ? "bg-background hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground data-[active]:bg-accent/50 data-[state=open]:bg-accent/50" 
                         : "bg-transparent text-white hover:bg-white/10 hover:text-white focus:bg-white/10 focus:text-white data-[active]:bg-white/10 data-[state=open]:bg-white/10"
                     )}>
-                  Pricing
-                </NavigationMenuLink>
-              </Link>
-            </NavigationMenuItem>
-          </NavigationMenuList>
-        </NavigationMenu>
+                      Pricing
+                    </NavigationMenuLink>
+                  </Link>
+                </NavigationMenuItem>
+              </NavigationMenuList>
+            </NavigationMenu>
           </div>
 
           {/* Phần 3: Theme, login, account */}
-          <div className="flex justify-end items-center space-x-3 sm:space-x-4">
+          <div className="flex items-center space-x-3 sm:space-x-4">
             {mounted && <ThemeToggle />}
+            
+            {/* Menu mobile */}
+            <div className="flex md:hidden">
+              <Sheet open={sheetOpen} onOpenChange={setSheetOpen}>
+                <SheetTrigger asChild>
+                  <Button 
+                    variant="ghost" 
+                    size="icon" 
+                    className={cn(
+                      "h-9 w-9",
+                      isScrolled ? "" : "text-white hover:bg-white/10"
+                    )}
+                  >
+                    <MenuIcon className="h-5 w-5" />
+                    <span className="sr-only">Open main menu</span>
+                  </Button>
+                </SheetTrigger>
+                <SheetContent side="left" className="w-64 sm:w-80 overflow-y-auto">
+                  <div className="flex flex-col space-y-6 mt-8 max-h-[calc(100vh-4rem)] overflow-y-auto pb-10">
+                    <div className="flex items-center mb-6">
+                      <SheetTitle>Menu chính</SheetTitle>
+                    </div>
+                    <nav className="flex flex-col space-y-4">
+                      <Link 
+                        href="/"
+                        className="flex items-center py-2 text-sm font-medium transition-colors"
+                        onClick={(e) => {
+                          scrollToSection('home')(e);
+                          setSheetOpen(false);
+                        }}
+                      >
+                        Home
+                      </Link>
+                      <Link 
+                        href="/"
+                        className="flex items-center py-2 text-sm font-medium transition-colors"
+                        onClick={(e) => {
+                          scrollToSection('features')(e);
+                          setSheetOpen(false);
+                        }}
+                      >
+                        Features
+                      </Link>
+                      <Link 
+                        href="/"
+                        className="flex items-center py-2 text-sm font-medium transition-colors"
+                        onClick={(e) => {
+                          scrollToSection('solutions')(e);
+                          setSheetOpen(false);
+                        }}
+                      >
+                        Solutions
+                      </Link>
+                      <div className="border-t border-border my-2 pt-2">
+                        <span className="text-sm font-medium mb-2 block">Platform</span>
+                        <div className="ml-3 flex flex-col space-y-2 mt-1">
+                          <Link 
+                            href="/" 
+                            className="text-sm"
+                            onClick={() => setSheetOpen(false)}
+                          >
+                            Online Testing Platform
+                          </Link>
+                          <Link 
+                            href="/test-creation" 
+                            className="text-sm"
+                            onClick={() => setSheetOpen(false)}
+                          >
+                            Test Creation
+                          </Link>
+                          <Link 
+                            href="/proctoring" 
+                            className="text-sm"
+                            onClick={() => setSheetOpen(false)}
+                          >
+                            Proctoring
+                          </Link>
+                        </div>
+                      </div>
+                      <div className="border-t border-border my-2 pt-2">
+                        <span className="text-sm font-medium mb-2 block">Industries</span>
+                        <div className="ml-3 flex flex-col space-y-2 mt-1">
+                          {solutions.map((solution) => (
+                            <Link 
+                              key={solution.title} 
+                              href={solution.href} 
+                              className="text-sm"
+                              onClick={() => setSheetOpen(false)}
+                            >
+                              {solution.title}
+                            </Link>
+                          ))}
+                        </div>
+                      </div>
+                      <Link 
+                        href="/pricing" 
+                        className="flex items-center py-2 text-sm font-medium transition-colors"
+                        onClick={() => setSheetOpen(false)}
+                      >
+                        Pricing
+                      </Link>
+                    </nav>
+                  </div>
+                </SheetContent>
+              </Sheet>
+            </div>
+            
             <Button 
               variant="ghost" 
               className={cn(
@@ -346,8 +380,8 @@ export function SiteHeader() {
               )} 
               asChild
             >
-            <Link href="/login">Log in</Link>
-          </Button>
+              <Link href="/login">Log in</Link>
+            </Button>
             <Button
               variant="outline"
               size="icon"
@@ -369,8 +403,8 @@ export function SiteHeader() {
               )} 
               asChild
             >
-            <Link href="/demo">Book a demo</Link>
-          </Button>
+              <Link href="/demo">Book a demo</Link>
+            </Button>
           </div>
         </div>
       </div>
