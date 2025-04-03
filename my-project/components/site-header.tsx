@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
-import { ThemeToggle } from "@/components/theme-toggle"
+import { ModeToggle } from "@/components/theme/mode-toggle"
 import {
   NavigationMenu,
   NavigationMenuContent,
@@ -20,11 +20,14 @@ import {
   SheetContent,
   SheetTrigger,
 } from "@/components/ui/sheet"
+import { useAuth } from "@/hooks/use-auth"
+import { UserNav } from "@/components/dashboard/user-nav"
 
 export function SiteHeader() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mounted, setMounted] = useState(false);
   const { theme } = useTheme();
+  const { user, isAuthenticated } = useAuth();
   
   // Mark component as mounted
   useEffect(() => {
@@ -87,7 +90,7 @@ export function SiteHeader() {
     >
       <div className="container flex h-16 items-center px-8 sm:px-10 md:px-16 lg:px-24">
         <div className="w-full grid grid-cols-3 items-center gap-4">
-          {/* Phần 1: Logo và thương hiệu */}
+          {/* Part 1: Logo and brand */}
           <div className="flex justify-start">
             <Link 
               href="/"
@@ -103,9 +106,9 @@ export function SiteHeader() {
             </Link>
           </div>
 
-          {/* Phần 2: Menu chính */}
+          {/* Part 2: Main menu */}
           <div className="flex justify-center">
-            {/* Menu mobile */}
+            {/* Mobile menu */}
             <div className="flex md:hidden justify-center">
               <Sheet>
                 <SheetTrigger asChild>
@@ -179,13 +182,28 @@ export function SiteHeader() {
                       <Link href="/pricing" className="flex items-center py-2 text-sm font-medium transition-colors">
                         Pricing
                       </Link>
+                      
+                      {isAuthenticated ? (
+                        <Link href="/dashboard" className="flex items-center py-2 text-sm font-medium transition-colors">
+                          Dashboard
+                        </Link>
+                      ) : (
+                        <>
+                          <Link href="/auth/signin" className="flex items-center py-2 text-sm font-medium transition-colors">
+                            Log in
+                          </Link>
+                          <Link href="/auth/signup" className="flex items-center py-2 text-sm font-medium transition-colors">
+                            Sign up
+                          </Link>
+                        </>
+                      )}
                     </nav>
                   </div>
                 </SheetContent>
               </Sheet>
             </div>
 
-            {/* Menu desktop */}
+            {/* Desktop menu */}
             <NavigationMenu className="hidden md:flex">
               <NavigationMenuList className={
                 isScrolled ? "" : "text-white"
@@ -335,42 +353,69 @@ export function SiteHeader() {
         </NavigationMenu>
           </div>
 
-          {/* Phần 3: Theme, login, account */}
+          {/* Part 3: Theme, login, account */}
           <div className="flex justify-end items-center space-x-3 sm:space-x-4">
-            {mounted && <ThemeToggle />}
-            <Button 
-              variant="ghost" 
-              className={cn(
-                "hidden sm:inline-flex px-3",
-                isScrolled ? "" : "text-white hover:bg-white/10 hover:text-white"
-              )} 
-              asChild
-            >
-            <Link href="/login">Log in</Link>
-          </Button>
-            <Button
-              variant="outline"
-              size="icon"
-              className={cn(
-                "rounded-full h-9 w-9",
-                isScrolled ? "" : "border-white/20 text-white hover:bg-white/10 hover:text-white"
-              )}
-              asChild
-            >
-              <Link href="/account">
-                <UserIcon className="h-5 w-5" />
-                <span className="sr-only">User account</span>
-              </Link>
-            </Button>
-            <Button 
-              className={cn(
-                "px-3 sm:px-4 font-medium",
-                isScrolled ? "" : "bg-white text-blue-900 hover:bg-white/90"
-              )} 
-              asChild
-            >
-            <Link href="/demo">Book a demo</Link>
-          </Button>
+            {mounted && <ModeToggle variant="navbar" />}
+
+            {isAuthenticated && mounted ? (
+              <div className="flex items-center">
+                {/* Dashboard link */}
+                <Button 
+                  variant="ghost" 
+                  className={cn(
+                    "hidden sm:inline-flex mr-2 px-3",
+                    isScrolled ? "" : "text-white hover:bg-white/10 hover:text-white"
+                  )} 
+                  asChild
+                >
+                  <Link href="/dashboard">Dashboard</Link>
+                </Button>
+                
+                {/* User navigation */}
+                <UserNav user={{
+                  name: user?.name,
+                  email: user?.email,
+                  image: user?.image,
+                  role: user?.role
+                }} />
+              </div>
+            ) : mounted ? (
+              <>
+                <Button 
+                  variant="ghost" 
+                  className={cn(
+                    "hidden sm:inline-flex px-3",
+                    isScrolled ? "" : "text-white hover:bg-white/10 hover:text-white"
+                  )} 
+                  asChild
+                >
+                  <Link href="/auth/signin">Log in</Link>
+                </Button>
+                <Button
+                  variant="outline"
+                  size="icon"
+                  className={cn(
+                    "rounded-full h-9 w-9",
+                    isScrolled ? "" : "border-white/20 text-white hover:bg-white/10 hover:text-white"
+                  )}
+                  asChild
+                >
+                  <Link href="/auth/signin">
+                    <UserIcon className="h-5 w-5" />
+                    <span className="sr-only">User account</span>
+                  </Link>
+                </Button>
+                <Button 
+                  className={cn(
+                    "px-3 sm:px-4 font-medium",
+                    isScrolled ? "" : "bg-white text-blue-900 hover:bg-white/90"
+                  )} 
+                  asChild
+                >
+                  <Link href="/auth/signup">Sign up</Link>
+                </Button>
+              </>
+            ) : null}
           </div>
         </div>
       </div>

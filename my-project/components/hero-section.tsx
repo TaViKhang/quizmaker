@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { ArrowRight } from 'lucide-react'
 import { useEffect, useState } from "react"
+import Link from "next/link"
 
 // Component for the background image overlay with color effect
 function ImageOverlay() {
@@ -75,13 +76,16 @@ export function HeroSection() {
           <p className="text-xl text-gray-200 max-w-[42rem]">
             TestPro helps thousands of organizations deliver secure, scalable online assessments. Get our all-in-one platform that simplifies test creation, delivery, and analysis.
           </p>
-          <div className="flex flex-col sm:flex-row gap-4 w-full justify-center">
-            <Button size="lg" className="w-full sm:w-auto">
-              Get started
-              <ArrowRight className="ml-2 h-4 w-4" />
+          <div className="flex flex-col sm:flex-row gap-4 mt-8">
+            <Button size="lg" asChild>
+              <Link href="/auth/signup" className="px-8">
+                Bắt đầu miễn phí
+              </Link>
             </Button>
-            <Button size="lg" variant="outline" className="w-full sm:w-auto bg-white/10 text-white hover:bg-white/20 hover:text-white">
-              View pricing
+            <Button variant="outline" size="lg" asChild>
+              <Link href="/auth/signin" className="px-8">
+                Đăng nhập
+              </Link>
             </Button>
           </div>
         </div>

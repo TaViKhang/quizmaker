@@ -1,0 +1,101 @@
+•  Mục tiêu chính:
+•  Xây dựng nền tảng thi trực tuyến chuyên nghiệp
+•  Hỗ trợ cả câu hỏi trắc nghiệm (MCQ) và tự luận
+•  Đảm bảo tính bảo mật cao
+•  Tự động hóa quy trình chấm điểm MCQ
+
+•  Công nghệ chính:
+•  Frontend: React.js
+•  Backend: Next.js
+•  Database: PostgreSQL
+•  Authentication: OAuth2.0, JWT
+
+•  Tính năng chính Phase 1:
+•  Quản lý người dùng (3 role: giáo viên, học sinh, admin)
+•  Tạo và quản lý bài thi
+•  Hệ thống chấm điểm tự động cho MCQ
+•  Chấm điểm thủ công cho bài tự luận
+•  Các tính năng bảo mật (khóa trình duyệt, lưu tự động)
+
+•  Hướng phát triển Phase 2:
+•  Tích hợp AI để chấm điểm tự luận
+•  Thêm tính năng học tập (flashcards, quizzes)
+•  Mở rộng quy mô và tối ưu hiệu năng
+•  Tích hợp với các LMS hiện có
+
+•  Nguyên tắc thiết kế cốt lõi:
+•  Thẩm mỹ tối giản và hiện đại (lấy cảm hứng từ Deel.com)
+•  Sử dụng nhiều khoảng trắng (whitespace)
+•  Typography rõ ràng
+•  Tránh các góc sắc nét, ưu tiên các đường cong mềm mại
+•  Phân cấp thị giác hợp lý
+
+•  Điều hướng và UX:
+•  Menu cấu trúc logic (dựa trên ClassMarker)
+•  Giao diện đơn giản, dễ tiếp cận
+•  Forms dễ hoàn thành
+•  Phản hồi rõ ràng và ngay lập tức
+•  Tài nguyên trợ giúp dễ tiếp cận
+
+•  Các giao diện chính cần thiết kế:
+•  Trang chủ với hero section ấn tượng
+•  Giao diện tạo bài kiểm tra
+•  Giao diện làm bài (tối giản, không gây mất tập trung)
+•  Báo cáo và thống kê
+•  Dashboard quản trị
+
+•  Yêu cầu kỹ thuật:
+•  Tối ưu hiệu năng, tải nhanh
+•  Responsive trên mọi thiết bị
+•  Tuân thủ WCAG để đảm bảo accessibility
+•  Tích hợp được với các LMS phổ biến
+
+Quy Trình Phát Triển
+•  Giai đoạn 1: Cơ sở hạ tầng
+•  Thiết lập project Next.js
+•  Cấu hình Prisma + PostgreSQL
+•  Thiết lập authentication (NextAuth.js)
+•  Cấu hình deployment (Vercel)
+•  Giai đoạn 2: Core Features
+•  Quản lý người dùng
+•  CRUD bài thi và câu hỏi
+•  Hệ thống làm bài thi
+•  Chấm điểm tự động MCQ
+•  Giai đoạn 3: Advanced Features
+•  Chấm điểm essay
+•  Analytics & Reporting
+•  Browser lockdown
+•  Auto-save
+•  Giai đoạn 4: Optimization
+•  Performance optimization
+•  Security hardening
+•  Testing & QA
+•  Documentation
+
+Tối Ưu Hóa
+•  Performance:
+•  Sử dụng React Server Components
+•  Implement caching strategy
+•  Lazy loading components
+•  Image optimization
+•  Security:
+•  CSRF protection
+•  XSS prevention
+•  SQL injection prevention
+•  Rate limiting
+•  Scalability:
+•  Database indexing
+•  Connection pooling
+•  Caching layer
+•  Load balancing
+V. Monitoring & Analytics
+•  Logging:
+•  Application logs
+•  Error tracking
+•  User activity
+•  Performance metrics
+•  Analytics:
+•  User behavior
+•  Test statistics
+•  Performance data
+•  Error rates
