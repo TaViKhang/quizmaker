@@ -37,69 +37,56 @@ export function MobileNav() {
   const isAuthenticated = status === "authenticated";
   const userRole = user?.role || Role.STUDENT;
 
-  // Tất cả các liên kết có thể có
+  // All possible links
   const links = [
     {
-      title: "Trang chủ",
+      title: "Home",
       href: "/dashboard",
       icon: Home,
-      roles: [Role.ADMIN, Role.TEACHER, Role.STUDENT],
-    },
-    // ADMIN links
-    {
-      title: "Người dùng",
-      href: "/dashboard/admin/users",
-      icon: Users,
-      roles: [Role.ADMIN],
-    },
-    {
-      title: "Thống kê",
-      href: "/dashboard/admin/stats",
-      icon: BarChart,
-      roles: [Role.ADMIN],
+      roles: [Role.TEACHER, Role.STUDENT],
     },
     // TEACHER links
     {
-      title: "Đề thi",
+      title: "Exams",
       href: "/dashboard/teacher/exams",
       icon: FileText,
-      roles: [Role.TEACHER, Role.ADMIN],
+      roles: [Role.TEACHER],
     },
     {
-      title: "Câu hỏi",
+      title: "Questions",
       href: "/dashboard/teacher/questions",
       icon: ListChecks,
-      roles: [Role.TEACHER, Role.ADMIN],
+      roles: [Role.TEACHER],
     },
     {
-      title: "Kết quả",
+      title: "Results",
       href: "/dashboard/teacher/results",
       icon: ClipboardCheck,
-      roles: [Role.TEACHER, Role.ADMIN],
+      roles: [Role.TEACHER],
     },
     // STUDENT links
     {
-      title: "Làm bài",
+      title: "Take Exams",
       href: "/dashboard/student/exams",
       icon: BookOpen,
       roles: [Role.STUDENT],
     },
     {
-      title: "Kết quả của tôi",
+      title: "My Results",
       href: "/dashboard/student/results",
       icon: ClipboardCheck,
       roles: [Role.STUDENT],
     },
     // Shared links
     {
-      title: "Cài đặt",
+      title: "Settings",
       href: "/dashboard/settings",
       icon: Settings,
-      roles: [Role.ADMIN, Role.TEACHER, Role.STUDENT],
+      roles: [Role.TEACHER, Role.STUDENT],
     },
   ];
   
-  // Lọc các liên kết phù hợp với vai trò người dùng
+  // Filter links based on user role
   const filteredLinks = isAuthenticated 
     ? links.filter((link) => link.roles.includes(userRole)) 
     : [];
@@ -148,7 +135,7 @@ export function MobileNav() {
               onClick={() => setOpen(false)}
               className="flex items-center gap-2 rounded-md px-2 py-2.5 text-sm font-medium hover:bg-muted/50"
             >
-              Đăng nhập
+              Sign In
             </Link>
           </div>
         )}

@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { User, Role } from "@prisma/client";
+import { Role } from "@prisma/client";
 import { 
   Card, 
   CardContent, 
@@ -48,8 +48,17 @@ import {
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
 
+interface User {
+  id: string;
+  name: string | null;
+  email: string | null;
+  image: string | null;
+  role: Role;
+  createdAt: Date;
+}
+
 interface UserRoleManagementProps {
-  users: Pick<User, "id" | "name" | "email" | "role" | "image" | "createdAt">[];
+  users: User[];
   currentUserId: string;
 }
 
@@ -60,7 +69,7 @@ export function UserRoleManagement({ users, currentUserId }: UserRoleManagementP
   const [showConfirmDialog, setShowConfirmDialog] = useState(false);
   const [pendingRoleChange, setPendingRoleChange] = useState<{ userId: string; newRole: Role } | null>(null);
   
-  // Lọc users dựa trên từ khóa tìm kiếm
+  // Filter users based on search term
   const filteredUsers = users.filter(
     (user) =>
       user.name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -68,77 +77,70 @@ export function UserRoleManagement({ users, currentUserId }: UserRoleManagementP
       user.role.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  // Xử lý thay đổi role
+  // Handle role change
   const handleRoleChange = async (userId: string, newRole: Role) => {
-    // Nếu đang cố thay đổi role của chính mình
+    // If trying to change your own role
     if (userId === currentUserId) {
       toast({
-        title: "Không thể thay đổi vai trò",
-        description: "Bạn không thể thay đổi vai trò của chính mình.",
+        title: "Cannot change role",
+        description: "You cannot change your own role.",
         variant: "destructive",
       });
       return;
     }
 
-    // Đặt state để hiện dialog xác nhận
+    // Set state to show confirmation dialog
     setPendingRoleChange({ userId, newRole });
     setShowConfirmDialog(true);
   };
 
-  // Xác nhận và thực hiện thay đổi role
+  // Confirm and process role change
   const confirmRoleChange = async () => {
     if (!pendingRoleChange) return;
     
-    const { userId, newRole } = pendingRoleChange;
-    setIsLoading(userId);
-    
     try {
-      const response = await fetch("/api/users/change-role", {
-        method: "PATCH",
+      setIsLoading(pendingRoleChange.userId);
+      
+      const response = await fetch("/api/admin/users/change-role", {
+        method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          userId,
-          newRole,
+          userId: pendingRoleChange.userId,
+          newRole: pendingRoleChange.newRole,
         }),
       });
-
+      
       const data = await response.json();
-
+      
       if (!response.ok) {
-        throw new Error(data.error || "Đã xảy ra lỗi khi thay đổi vai trò");
+        throw new Error(data.error || "Failed to change user role");
       }
-
+      
       toast({
-        title: "Thành công",
-        description: data.message || "Đã thay đổi vai trò người dùng thành công",
+        title: "Role updated",
+        description: `User role has been updated to ${pendingRoleChange.newRole}.`,
       });
       
-      // Cập nhật lại state trong UI
-      users.forEach(user => {
-        if (user.id === userId) {
-          user.role = newRole;
-        }
-      });
+      // Refresh the page to see updated data
+      window.location.reload();
     } catch (error) {
+      console.error("Error changing role:", error);
       toast({
-        title: "Lỗi",
-        description: error instanceof Error ? error.message : "Đã xảy ra lỗi khi thay đổi vai trò",
+        title: "Error",
+        description: "Failed to change user role. Please try again.",
         variant: "destructive",
       });
     } finally {
       setIsLoading(null);
       setShowConfirmDialog(false);
-      setPendingRoleChange(null);
     }
   };
 
-  // Hàm để lấy icon phù hợp với role
+  // Get role icon based on role
   const getRoleIcon = (role: Role) => {
     switch (role) {
-      case Role.ADMIN:
-        return <Shield className="h-4 w-4 text-emerald-500" />;
       case Role.TEACHER:
         return <GraduationCap className="h-4 w-4 text-blue-500" />;
       case Role.STUDENT:
@@ -148,11 +150,9 @@ export function UserRoleManagement({ users, currentUserId }: UserRoleManagementP
     }
   };
 
-  // Hàm để lấy màu badge dựa trên role
+  // Function to get badge color based on role
   const getRoleBadgeVariant = (role: Role): "default" | "outline" | "secondary" | "destructive" => {
     switch (role) {
-      case Role.ADMIN:
-        return "destructive";
       case Role.TEACHER:
         return "secondary";
       case Role.STUDENT:
@@ -162,16 +162,16 @@ export function UserRoleManagement({ users, currentUserId }: UserRoleManagementP
     }
   };
 
-  // Hàm format ngày
+  // Format date function
   const formatDate = (date: Date) => {
-    return new Date(date).toLocaleDateString("vi-VN", {
+    return new Date(date).toLocaleDateString("en-US", {
       day: "2-digit",
       month: "2-digit",
       year: "numeric",
     });
   };
 
-  // Lấy chữ cái đầu của tên để làm avatar fallback
+  // Get name initials for avatar fallback
   const getNameInitials = (name: string | null) => {
     if (!name) return "?";
     return name.split(" ").map(part => part[0]).join("").toUpperCase();
@@ -181,15 +181,15 @@ export function UserRoleManagement({ users, currentUserId }: UserRoleManagementP
     <>
       <Card>
         <CardHeader>
-          <CardTitle>Danh sách người dùng</CardTitle>
+          <CardTitle>User List</CardTitle>
           <CardDescription>
-            Tổng cộng {users.length} người dùng trong hệ thống.
+            Total of {users.length} users in the system.
           </CardDescription>
           <div className="relative mt-4">
             <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
             <Input
               type="search"
-              placeholder="Tìm kiếm theo tên, email hoặc vai trò..."
+              placeholder="Search by name, email or role..."
               className="pl-8"
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
@@ -201,18 +201,18 @@ export function UserRoleManagement({ users, currentUserId }: UserRoleManagementP
             <Table>
               <TableHeader>
                 <TableRow>
-                  <TableHead className="w-[50px]">STT</TableHead>
-                  <TableHead className="w-[250px]">Thông tin người dùng</TableHead>
+                  <TableHead className="w-[50px]">No.</TableHead>
+                  <TableHead className="w-[250px]">User Info</TableHead>
                   <TableHead>Email</TableHead>
-                  <TableHead className="w-[150px]">Vai trò</TableHead>
-                  <TableHead className="w-[120px]">Ngày tạo</TableHead>
+                  <TableHead className="w-[150px]">Role</TableHead>
+                  <TableHead className="w-[120px]">Created</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
                 {filteredUsers.length === 0 ? (
                   <TableRow>
                     <TableCell colSpan={5} className="h-24 text-center text-muted-foreground">
-                      Không tìm thấy người dùng nào
+                      No users found
                     </TableCell>
                   </TableRow>
                 ) : (
@@ -228,7 +228,7 @@ export function UserRoleManagement({ users, currentUserId }: UserRoleManagementP
                           <div>
                             <div className="font-medium">{user.name}</div>
                             {user.id === currentUserId && (
-                              <span className="text-xs text-muted-foreground">(Bạn)</span>
+                              <span className="text-xs text-muted-foreground">(You)</span>
                             )}
                           </div>
                         </div>
@@ -248,12 +248,11 @@ export function UserRoleManagement({ users, currentUserId }: UserRoleManagementP
                               disabled={isLoading === user.id}
                             >
                               <SelectTrigger className="h-8 w-[140px]">
-                                <SelectValue placeholder="Đổi vai trò" />
+                                <SelectValue placeholder="Change role" />
                               </SelectTrigger>
                               <SelectContent>
-                                <SelectItem value={Role.ADMIN}>Admin</SelectItem>
-                                <SelectItem value={Role.TEACHER}>Giáo viên</SelectItem>
-                                <SelectItem value={Role.STUDENT}>Học sinh</SelectItem>
+                                <SelectItem value={Role.TEACHER}>Teacher</SelectItem>
+                                <SelectItem value={Role.STUDENT}>Student</SelectItem>
                               </SelectContent>
                             </Select>
                           )}
@@ -269,23 +268,23 @@ export function UserRoleManagement({ users, currentUserId }: UserRoleManagementP
         </CardContent>
       </Card>
 
-      {/* Dialog xác nhận thay đổi role */}
+      {/* Role change confirmation dialog */}
       <AlertDialog open={showConfirmDialog} onOpenChange={setShowConfirmDialog}>
         <AlertDialogContent>
           <AlertDialogHeader>
-            <AlertDialogTitle>Xác nhận thay đổi vai trò người dùng</AlertDialogTitle>
+            <AlertDialogTitle>Confirm User Role Change</AlertDialogTitle>
             <AlertDialogDescription>
-              Bạn có chắc chắn muốn thay đổi vai trò của người dùng này thành{" "}
+              Are you sure you want to change this user's role to{" "}
               <span className="font-semibold">
                 {pendingRoleChange?.newRole || ""}
               </span>
-              ? Hành động này sẽ thay đổi quyền truy cập của họ trong hệ thống.
+              ? This action will change their access permissions in the system.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogCancel>Hủy</AlertDialogCancel>
+            <AlertDialogCancel>Cancel</AlertDialogCancel>
             <AlertDialogAction onClick={confirmRoleChange} disabled={isLoading !== null}>
-              {isLoading !== null ? "Đang xử lý..." : "Xác nhận"}
+              {isLoading !== null ? "Processing..." : "Confirm"}
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>

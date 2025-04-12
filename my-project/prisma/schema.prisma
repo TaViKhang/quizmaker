@@ -8,18 +8,18 @@ datasource db {
 }
 
 model User {
-  id            String         @id @default(cuid())
+  id            String        @id @default(cuid())
   name          String?
-  email         String         @unique
+  email         String        @unique
   emailVerified DateTime?
   image         String?
   password      String?
-  role          Role           @default(STUDENT)
-  createdAt     DateTime       @default(now())
-  updatedAt     DateTime       @updatedAt
-  quizzes       Quiz[]         @relation("CreatedQuizzes")
-  attempts      QuizAttempt[]
+  role          Role          @default(STUDENT)
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
   accounts      Account[]
+  quizzes       Quiz[]        @relation("CreatedQuizzes")
+  attempts      QuizAttempt[]
   sessions      Session[]
 }
 
@@ -29,15 +29,14 @@ model Account {
   type              String
   provider          String
   providerAccountId String
-  refresh_token     String? @db.Text
-  access_token      String? @db.Text
+  refresh_token     String?
+  access_token      String?
   expires_at        Int?
   token_type        String?
   scope             String?
-  id_token          String? @db.Text
+  id_token          String?
   session_state     String?
-
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([provider, providerAccountId])
 }
@@ -62,63 +61,62 @@ model Quiz {
   id          String        @id @default(cuid())
   title       String
   description String?
-  timeLimit   Int          // minutes
+  timeLimit   Int
   authorId    String
-  author      User         @relation("CreatedQuizzes", fields: [authorId], references: [id])
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+  isActive    Boolean       @default(true)
   questions   Question[]
+  author      User          @relation("CreatedQuizzes", fields: [authorId], references: [id])
   attempts    QuizAttempt[]
-  createdAt   DateTime     @default(now())
-  updatedAt   DateTime     @updatedAt
-  isActive    Boolean      @default(true)
 }
 
 model Question {
-  id          String    @id @default(cuid())
-  quizId      String
-  quiz        Quiz      @relation(fields: [quizId], references: [id])
-  content     String
-  type        QuestionType
-  options     Option[]
-  answers     Answer[]
-  points      Int       @default(1)
-  order       Int
+  id      String       @id @default(cuid())
+  quizId  String
+  content String
+  type    QuestionType
+  points  Int          @default(1)
+  order   Int
+  answers Answer[]
+  options Option[]
+  quiz    Quiz         @relation(fields: [quizId], references: [id])
 }
 
 model Option {
-  id          String    @id @default(cuid())
-  questionId  String
-  question    Question  @relation(fields: [questionId], references: [id])
-  content     String
-  isCorrect   Boolean
-  order       Int
+  id         String   @id @default(cuid())
+  questionId String
+  content    String
+  isCorrect  Boolean
+  order      Int
+  question   Question @relation(fields: [questionId], references: [id])
 }
 
 model QuizAttempt {
   id          String    @id @default(cuid())
   quizId      String
-  quiz        Quiz      @relation(fields: [quizId], references: [id])
   userId      String
-  user        User      @relation(fields: [userId], references: [id])
   startedAt   DateTime  @default(now())
   completedAt DateTime?
-  answers     Answer[]
   score       Float?
+  answers     Answer[]
+  quiz        Quiz      @relation(fields: [quizId], references: [id])
+  user        User      @relation(fields: [userId], references: [id])
 }
 
 model Answer {
-  id            String      @id @default(cuid())
-  attemptId     String
-  attempt       QuizAttempt @relation(fields: [attemptId], references: [id])
-  questionId    String
-  question      Question    @relation(fields: [questionId], references: [id])
-  selectedOption String?    // For MCQ
-  textAnswer    String?     // For essay
-  isCorrect     Boolean?
-  score         Float?
+  id             String      @id @default(cuid())
+  attemptId      String
+  questionId     String
+  selectedOption String?
+  textAnswer     String?
+  isCorrect      Boolean?
+  score          Float?
+  attempt        QuizAttempt @relation(fields: [attemptId], references: [id])
+  question       Question    @relation(fields: [questionId], references: [id])
 }
 
 enum Role {
-  ADMIN
   TEACHER
   STUDENT
 }

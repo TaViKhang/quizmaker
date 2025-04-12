@@ -111,6 +111,15 @@ export default function SignInPage() {
           <div className="w-full lg:w-1/2 p-6 md:p-8 flex items-center justify-center animate-fadeSlideIn">
             <div className="w-full max-w-md">
               <SignInForm />
+              <div className="bg-white p-4 rounded-xl border border-slate-100 shadow-sm">
+                <p className="text-slate-800 text-sm flex items-start">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-emerald-500 mr-2 flex-shrink-0 mt-0.5"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+                  <span>
+                    First time users will be asked to select a role (Student or Teacher) 
+                    after signing in. Your role determines which features you can access.
+                  </span>
+                </p>
+              </div>
             </div>
           </div>
         </div>

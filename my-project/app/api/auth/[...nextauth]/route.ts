@@ -2,14 +2,16 @@ import NextAuth, { AuthOptions } from "next-auth"
 import { PrismaAdapter } from "@auth/prisma-adapter"
 import { db } from "@/lib/db"
 import GoogleProvider from "next-auth/providers/google"
-import { Role } from "@prisma/client"
+import { ROLES, RoleType } from "@/lib/constants"
 
 // Domain email được ủy quyền cao hơn
-const AUTHORIZED_ADMIN_EMAILS = ['admin@example.com']
 const AUTHORIZED_TEACHER_DOMAINS = ['school.edu', 'university.edu', 'teacher.org']
 
+// Fix cho type adapter
+const prismaAdapter = PrismaAdapter(db) as any
+
 export const authOptions: AuthOptions = {
-  adapter: PrismaAdapter(db),
+  adapter: prismaAdapter,
   providers: [
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID!,
@@ -19,13 +21,14 @@ export const authOptions: AuthOptions = {
   ],
   session: {
     strategy: "jwt",
-    maxAge: 30 * 24 * 60 * 60, // 30 days
+    maxAge: 24 * 60 * 60, // 24 hours
+    updateAge: 4 * 60 * 60, // 4 hours
   },
   callbacks: {
     async jwt({ token, user, account, profile, trigger }) {
       // Nếu có user mới đăng nhập, cập nhật token từ database
       if (user) {
-        token.role = user.role
+        token.role = user.role as RoleType
         token.id = user.id
       } else if (token.sub) {
         // Nếu token đã tồn tại, lấy thông tin mới nhất từ database
@@ -35,7 +38,7 @@ export const authOptions: AuthOptions = {
           })
           
           if (dbUser) {
-            token.role = dbUser.role
+            token.role = dbUser.role as RoleType
             token.id = dbUser.id
             token.name = dbUser.name
             token.email = dbUser.email
@@ -54,7 +57,7 @@ export const authOptions: AuthOptions = {
           })
           
           if (dbUser) {
-            token.role = dbUser.role // Cập nhật role mới
+            token.role = dbUser.role as RoleType // Cập nhật role mới
           }
         } catch (error) {
           console.error("Error updating token:", error)
@@ -65,7 +68,7 @@ export const authOptions: AuthOptions = {
     },
     async session({ session, token }) {
       if (session.user && token) {
-        session.user.role = token.role as Role
+        session.user.role = token.role as RoleType
         session.user.id = token.id as string
       }
       return session
@@ -80,17 +83,13 @@ export const authOptions: AuthOptions = {
           })
           
           if (!existingUser) {
-            // Xác định role dựa trên email
-            let role = Role.STUDENT // Mặc định là student
+            // Xác định role mặc định là STUDENT
+            let role: RoleType = ROLES.STUDENT
             
-            // Kiểm tra nếu là admin
-            if (AUTHORIZED_ADMIN_EMAILS.includes(user.email)) {
-              role = Role.ADMIN
-            } 
             // Kiểm tra nếu là giáo viên (domain)
-            else if (AUTHORIZED_TEACHER_DOMAINS.some(domain => 
+            if (AUTHORIZED_TEACHER_DOMAINS.some(domain => 
               user.email?.toLowerCase().endsWith(`@${domain}`))) {
-              role = Role.TEACHER
+              role = ROLES.TEACHER
             }
             
             // Tạo user mới với role phù hợp
@@ -103,6 +102,9 @@ export const authOptions: AuthOptions = {
                 role,
               },
             })
+            
+            // Đánh dấu để redirect tới trang chọn role
+            return true
           }
           
           return true
@@ -119,7 +121,7 @@ export const authOptions: AuthOptions = {
     signIn: '/auth/signin',
     signOut: '/',
     error: '/auth/error',
-    newUser: '/auth/signin' // Điều hướng người dùng mới đến trang signin
+    newUser: '/auth/select-role' // Điều hướng người dùng mới đến trang chọn role
   },
   secret: process.env.NEXTAUTH_SECRET,
   debug: process.env.NODE_ENV === "development",

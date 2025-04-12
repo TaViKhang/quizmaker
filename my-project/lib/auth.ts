@@ -24,14 +24,10 @@ export async function hasRole(role: Role) {
   return user?.role === role;
 }
 
-export async function isAdmin() {
-  return hasRole(Role.ADMIN);
-}
-
 export async function isTeacher() {
   const user = await getCurrentUser();
   
-  return user?.role === Role.ADMIN || user?.role === Role.TEACHER;
+  return user?.role === Role.TEACHER;
 }
 
 export async function isStudent() {

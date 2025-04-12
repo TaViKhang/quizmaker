@@ -79,12 +79,12 @@ export function HeroSection() {
           <div className="flex flex-col sm:flex-row gap-4 mt-8">
             <Button size="lg" asChild>
               <Link href="/auth/signup" className="px-8">
-                Bắt đầu miễn phí
+                Start for free
               </Link>
             </Button>
             <Button variant="outline" size="lg" asChild>
               <Link href="/auth/signin" className="px-8">
-                Đăng nhập
+                Sign in
               </Link>
             </Button>
           </div>

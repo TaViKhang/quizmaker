@@ -23,69 +23,56 @@ interface DashboardNavProps {
 export function DashboardNav({ userRole }: DashboardNavProps) {
   const pathname = usePathname();
 
-  // Định nghĩa các liên kết dựa trên vai trò người dùng
+  // Define links based on user role
   const links = [
     {
-      title: "Trang chủ",
+      title: "Home",
       href: "/dashboard",
       icon: Home,
-      roles: [Role.ADMIN, Role.TEACHER, Role.STUDENT],
-    },
-    // ADMIN links
-    {
-      title: "Người dùng",
-      href: "/dashboard/admin/users",
-      icon: Users,
-      roles: [Role.ADMIN],
-    },
-    {
-      title: "Thống kê",
-      href: "/dashboard/admin/stats",
-      icon: BarChart,
-      roles: [Role.ADMIN],
+      roles: [Role.TEACHER, Role.STUDENT],
     },
     // TEACHER links
     {
-      title: "Đề thi",
+      title: "Exams",
       href: "/dashboard/teacher/exams",
       icon: FileText,
-      roles: [Role.TEACHER, Role.ADMIN],
+      roles: [Role.TEACHER],
     },
     {
-      title: "Câu hỏi",
+      title: "Questions",
       href: "/dashboard/teacher/questions",
       icon: ListChecks,
-      roles: [Role.TEACHER, Role.ADMIN],
+      roles: [Role.TEACHER],
     },
     {
-      title: "Kết quả",
+      title: "Results",
       href: "/dashboard/teacher/results",
       icon: ClipboardCheck,
-      roles: [Role.TEACHER, Role.ADMIN],
+      roles: [Role.TEACHER],
     },
     // STUDENT links
     {
-      title: "Làm bài",
+      title: "Take Exams",
       href: "/dashboard/student/exams",
       icon: BookOpen,
       roles: [Role.STUDENT],
     },
     {
-      title: "Kết quả của tôi",
+      title: "My Results",
       href: "/dashboard/student/results",
       icon: ClipboardCheck,
       roles: [Role.STUDENT],
     },
     // Shared links
     {
-      title: "Cài đặt",
+      title: "Settings",
       href: "/dashboard/settings",
       icon: Settings,
-      roles: [Role.ADMIN, Role.TEACHER, Role.STUDENT],
+      roles: [Role.TEACHER, Role.STUDENT],
     },
   ];
 
-  // Lọc các liên kết phù hợp với vai trò người dùng
+  // Filter links based on user role
   const filteredLinks = links.filter((link) => link.roles.includes(userRole));
 
   return (
