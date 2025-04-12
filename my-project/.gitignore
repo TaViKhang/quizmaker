@@ -38,3 +38,15 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# Cursor IDE
+.cursor/
+.cursor-ignore
+my-project/.cursor/
+
+# IDE and editor folders
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
