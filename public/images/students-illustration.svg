@@ -1,0 +1,112 @@
+<svg width="600" height="500" viewBox="0 0 600 500" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <g>
+    <rect x="170" y="50" width="320" height="400" rx="20" fill="#FFD699" opacity="0.5"/>
+    
+    <!-- Student 1 (Left) -->
+    <g transform="translate(100, 220)">
+      <!-- Head -->
+      <circle cx="40" cy="50" r="35" fill="#FF5B5B"/>
+      <!-- Hair -->
+      <path d="M15 30C15 30 25 10 50 15C75 20 65 40 65 40" stroke="#2E1A47" stroke-width="8" fill="none"/>
+      <!-- Face -->
+      <circle cx="30" cy="45" r="3" fill="#2E1A47"/>
+      <circle cx="50" cy="45" r="3" fill="#2E1A47"/>
+      <path d="M30 60Q40 70 50 60" stroke="#2E1A47" stroke-width="2" fill="none"/>
+      <!-- Body -->
+      <rect x="20" y="85" width="40" height="80" rx="5" fill="#FF5B5B"/>
+      <!-- Arms -->
+      <rect x="0" y="95" width="20" height="60" rx="10" fill="#FF5B5B"/>
+      <rect x="60" y="95" width="20" height="60" rx="10" fill="#FF5B5B"/>
+      <!-- Paper -->
+      <rect x="-10" y="110" width="30" height="40" rx="2" fill="white" stroke="#2E1A47"/>
+      <!-- Legs -->
+      <rect x="25" y="165" width="15" height="50" rx="7" fill="#3E56C4"/>
+      <rect x="40" y="165" width="15" height="50" rx="7" fill="#3E56C4"/>
+    </g>
+    
+    <!-- Student 2 (Center) -->
+    <g transform="translate(200, 200)">
+      <!-- Head -->
+      <circle cx="40" cy="50" r="35" fill="#FFB84D"/>
+      <!-- Hair -->
+      <path d="M20 25C20 25 30 10 40 10C50 10 60 25 60 25" stroke="#2E1A47" stroke-width="10" fill="none"/>
+      <path d="M20 25C20 25 20 35 20 45" stroke="#2E1A47" stroke-width="8" fill="none"/>
+      <path d="M60 25C60 25 60 35 60 45" stroke="#2E1A47" stroke-width="8" fill="none"/>
+      <!-- Glasses -->
+      <circle cx="30" cy="45" r="10" stroke="#2E1A47" stroke-width="2" fill="none"/>
+      <circle cx="50" cy="45" r="10" stroke="#2E1A47" stroke-width="2" fill="none"/>
+      <line x1="40" y1="45" x2="40" y2="45" stroke="#2E1A47" stroke-width="2"/>
+      <!-- Mouth -->
+      <path d="M30 65Q40 70 50 65" stroke="#2E1A47" stroke-width="2" fill="none"/>
+      <!-- Body -->
+      <rect x="20" y="85" width="40" height="80" rx="5" fill="#FFB84D"/>
+      <!-- Arms -->
+      <rect x="0" y="95" width="20" height="60" rx="10" fill="#FFB84D"/>
+      <rect x="60" y="95" width="20" height="60" rx="10" fill="#FFB84D"/>
+      <!-- Paper -->
+      <rect x="25" y="95" width="30" height="40" rx="2" fill="white" stroke="#2E1A47"/>
+      <!-- Legs -->
+      <rect x="25" y="165" width="15" height="50" rx="7" fill="#3E56C4"/>
+      <rect x="40" y="165" width="15" height="50" rx="7" fill="#3E56C4"/>
+    </g>
+    
+    <!-- Student 3 (Right) -->
+    <g transform="translate(310, 210)">
+      <!-- Head -->
+      <circle cx="40" cy="50" r="35" fill="#4CAF50"/>
+      <!-- Hair -->
+      <path d="M15 25C15 25 25 15 40 15C55 15 65 25 65 25" stroke="#2E1A47" stroke-width="8" fill="none"/>
+      <path d="M65 25C65 25 75 35 75 45" stroke="#2E1A47" stroke-width="6" fill="none"/>
+      <!-- Face -->
+      <circle cx="30" cy="45" r="3" fill="#2E1A47"/>
+      <circle cx="50" cy="45" r="3" fill="#2E1A47"/>
+      <path d="M35 60Q40 65 45 60" stroke="#2E1A47" stroke-width="2" fill="none"/>
+      <!-- Body -->
+      <rect x="20" y="85" width="40" height="80" rx="5" fill="#4CAF50"/>
+      <!-- Arms -->
+      <rect x="0" y="95" width="20" height="60" rx="10" fill="#4CAF50"/>
+      <rect x="60" y="95" width="20" height="60" rx="10" fill="#4CAF50"/>
+      <!-- Paper -->
+      <rect x="65" y="110" width="30" height="40" rx="2" fill="white" stroke="#2E1A47"/>
+      <!-- Legs -->
+      <rect x="25" y="165" width="15" height="50" rx="7" fill="#2E1A47"/>
+      <rect x="40" y="165" width="15" height="50" rx="7" fill="#2E1A47"/>
+    </g>
+    
+    <!-- Student 4 (Far Right) -->
+    <g transform="translate(420, 220)">
+      <!-- Head -->
+      <circle cx="40" cy="50" r="35" fill="#7986CB"/>
+      <!-- Hair -->
+      <path d="M15 25C15 25 25 15 45 15C65 15 65 30 65 30V45" stroke="#2E1A47" stroke-width="8" fill="none"/>
+      <!-- Face -->
+      <circle cx="30" cy="45" r="3" fill="#2E1A47"/>
+      <circle cx="50" cy="45" r="3" fill="#2E1A47"/>
+      <path d="M30 60Q40 65 50 60" stroke="#2E1A47" stroke-width="2" fill="none"/>
+      <!-- Body -->
+      <rect x="20" y="85" width="40" height="80" rx="5" fill="#7986CB"/>
+      <!-- Arms -->
+      <rect x="0" y="95" width="20" height="60" rx="10" fill="#7986CB"/>
+      <rect x="60" y="95" width="20" height="60" rx="10" fill="#7986CB"/>
+      <!-- Legs -->
+      <rect x="25" y="165" width="15" height="50" rx="7" fill="#FF9800"/>
+      <rect x="40" y="165" width="15" height="50" rx="7" fill="#FF9800"/>
+    </g>
+    
+    <!-- Decorative Elements -->
+    <circle cx="140" cy="120" r="15" fill="#FFECB3" opacity="0.6"/>
+    <circle cx="460" cy="150" r="20" fill="#FFECB3" opacity="0.6"/>
+    <circle cx="180" cy="380" r="25" fill="#FFECB3" opacity="0.6"/>
+    <circle cx="420" cy="370" r="18" fill="#FFECB3" opacity="0.6"/>
+    
+    <!-- Dashed Line Elements -->
+    <path d="M120 150 L140 170 L160 150" stroke="#2E1A47" stroke-width="2" stroke-dasharray="4 2" fill="none"/>
+    <path d="M440 130 L460 150 L480 130" stroke="#2E1A47" stroke-width="2" stroke-dasharray="4 2" fill="none"/>
+    <path d="M200 360 L180 380 L160 360" stroke="#2E1A47" stroke-width="2" stroke-dasharray="4 2" fill="none"/>
+    
+    <!-- Leaf-like Elements -->
+    <path d="M100 300 Q120 280 140 300 Q120 320 100 300Z" fill="#4CAF50" opacity="0.3"/>
+    <path d="M460 270 Q480 250 500 270 Q480 290 460 270Z" fill="#4CAF50" opacity="0.3"/>
+    <path d="M140 400 Q160 380 180 400 Q160 420 140 400Z" fill="#4CAF50" opacity="0.3"/>
+  </g>
+</svg> 

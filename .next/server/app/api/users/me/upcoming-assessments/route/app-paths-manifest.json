@@ -1,0 +1,3 @@
+{
+  "/api/users/me/upcoming-assessments/route": "app/api/users/me/upcoming-assessments/route.js"
+}

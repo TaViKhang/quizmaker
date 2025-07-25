@@ -1,0 +1,3 @@
+{
+  "/api/users/me/score-analytics/route": "app/api/users/me/score-analytics/route.js"
+}

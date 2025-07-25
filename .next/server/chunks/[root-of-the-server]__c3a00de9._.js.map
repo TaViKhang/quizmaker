@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": [],
+  "sections": [
+    {"offset": {"line": 6, "column": 0}, "map": {"version":3,"sources":[],"names":[],"mappings":"","debugId":null}},
+    {"offset": {"line": 60, "column": 0}, "map": {"version":3,"sources":["file:///F:/Github%20Project/quizmaker/my-project/app/api/users/me/quizzes/results/route.ts"],"sourcesContent":["import { NextRequest, NextResponse } from 'next/server';\r\n\r\n/**\r\n * Handles GET requests to /api/users/me/quizzes/results\r\n * This is a compatibility endpoint that redirects requests to the correct endpoint at /api/users/me/quiz-results\r\n */\r\nexport async function GET(req: NextRequest) {\r\n  // Extract the search params from the request URL\r\n  const url = new URL(req.url);\r\n  const params = url.searchParams.toString();\r\n  \r\n  // Construct the correct API endpoint URL with any existing query parameters\r\n  const redirectUrl = `/api/users/me/quiz-results${params ? `?${params}` : ''}`;\r\n  \r\n  // Return a redirect response\r\n  return NextResponse.redirect(new URL(redirectUrl, req.url));\r\n} "],"names":[],"mappings":";;;AAAA;;AAMO,eAAe,IAAI,GAAgB;IACxC,iDAAiD;IACjD,MAAM,MAAM,IAAI,IAAI,IAAI,GAAG;IAC3B,MAAM,SAAS,IAAI,YAAY,CAAC,QAAQ;IAExC,4EAA4E;IAC5E,MAAM,cAAc,CAAC,0BAA0B,EAAE,SAAS,CAAC,CAAC,EAAE,QAAQ,GAAG,IAAI;IAE7E,6BAA6B;IAC7B,OAAO,gIAAA,CAAA,eAAY,CAAC,QAAQ,CAAC,IAAI,IAAI,aAAa,IAAI,GAAG;AAC3D","debugId":null}}]
+}

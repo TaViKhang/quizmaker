@@ -1,0 +1,3 @@
+{
+  "/api/users/me/quizzes/route": "app/api/users/me/quizzes/route.js"
+}

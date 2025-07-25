@@ -1,0 +1,11 @@
+const CHUNK_PUBLIC_PATH = "server/app/api/users/me/quizzes/[quizId]/route.js";
+const runtime = require("../../../../../../chunks/[turbopack]_runtime.js");
+runtime.loadChunk("server/chunks/node_modules_next_d0b4debc._.js");
+runtime.loadChunk("server/chunks/node_modules_next-auth_b9ce9ae5._.js");
+runtime.loadChunk("server/chunks/node_modules_openid-client_ef38b3be._.js");
+runtime.loadChunk("server/chunks/node_modules_c6205b71._.js");
+runtime.loadChunk("server/chunks/node_modules_dc6eb261._.js");
+runtime.loadChunk("server/chunks/[root-of-the-server]__83875d7d._.js");
+runtime.getOrInstantiateRuntimeModule("[project]/.next-internal/server/app/api/users/me/quizzes/[quizId]/route/actions.js [app-rsc] (server actions loader, ecmascript)", CHUNK_PUBLIC_PATH);
+runtime.getOrInstantiateRuntimeModule("[project]/node_modules/next/dist/esm/build/templates/app-route.js { INNER_APP_ROUTE => \"[project]/app/api/users/me/quizzes/[quizId]/route.ts [app-route] (ecmascript)\" } [app-route] (ecmascript)", CHUNK_PUBLIC_PATH);
+module.exports = runtime.getOrInstantiateRuntimeModule("[project]/node_modules/next/dist/esm/build/templates/app-route.js { INNER_APP_ROUTE => \"[project]/app/api/users/me/quizzes/[quizId]/route.ts [app-route] (ecmascript)\" } [app-route] (ecmascript)", CHUNK_PUBLIC_PATH).exports;

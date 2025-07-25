@@ -1,0 +1,3 @@
+{
+  "/api/users/me/dashboard-summary/route": "app/api/users/me/dashboard-summary/route.js"
+}

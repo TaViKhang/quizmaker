@@ -1,0 +1,6 @@
+{
+  "version": 3,
+  "sources": [],
+  "sections": [
+    {"offset": {"line": 7, "column": 0}, "map": {"version":3,"sources":["file:///F:/Github%20Project/quizmaker/my-project/app/dashboard/student/results/layout.tsx"],"sourcesContent":["import { Metadata } from \"next\";\r\n\r\nexport const metadata: Metadata = {\r\n  title: \"My Results | OnTest\",\r\n  description: \"View your quiz and assessment results\",\r\n};\r\n\r\nexport default function ResultsLayout({\r\n  children,\r\n}: {\r\n  children: React.ReactNode;\r\n}) {\r\n  return (\r\n    <div>\r\n      {children}\r\n    </div>\r\n  );\r\n} "],"names":[],"mappings":";;;;;;AAEO,MAAM,WAAqB;IAChC,OAAO;IACP,aAAa;AACf;AAEe,SAAS,cAAc,EACpC,QAAQ,EAGT;IACC,qBACE,8OAAC;kBACE;;;;;;AAGP","debugId":null}}]
+}

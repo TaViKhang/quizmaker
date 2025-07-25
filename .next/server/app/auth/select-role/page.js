@@ -1,0 +1,16 @@
+const CHUNK_PUBLIC_PATH = "server/app/auth/select-role/page.js";
+const runtime = require("../../../chunks/ssr/[turbopack]_runtime.js");
+runtime.loadChunk("server/chunks/ssr/node_modules_next_dist_0962b827._.js");
+runtime.loadChunk("server/chunks/ssr/[root-of-the-server]__4c58c055._.js");
+runtime.loadChunk("server/chunks/ssr/app_1f3630ef._.js");
+runtime.loadChunk("server/chunks/ssr/node_modules_effb3ee0._.js");
+runtime.loadChunk("server/chunks/ssr/[root-of-the-server]__c83bde3b._.js");
+runtime.loadChunk("server/chunks/ssr/_bc52cd4d._.js");
+runtime.loadChunk("server/chunks/ssr/node_modules_b04db032._.js");
+runtime.loadChunk("server/chunks/ssr/node_modules_next_dist_client_components_unauthorized-error_c8949b27.js");
+runtime.loadChunk("server/chunks/ssr/_8f8c2cab._.js");
+runtime.loadChunk("server/chunks/ssr/node_modules_7d6049dc._.js");
+runtime.loadChunk("server/chunks/ssr/[root-of-the-server]__ee853bf2._.js");
+runtime.getOrInstantiateRuntimeModule("[project]/.next-internal/server/app/auth/select-role/page/actions.js [app-rsc] (server actions loader, ecmascript)", CHUNK_PUBLIC_PATH);
+runtime.getOrInstantiateRuntimeModule("[project]/node_modules/next/dist/esm/build/templates/app-page.js?page=/auth/select-role/page { METADATA_0 => \"[project]/app/favicon.ico.mjs { IMAGE => \\\"[project]/app/favicon.ico (static in ecmascript)\\\" } [app-rsc] (structured image object, ecmascript, Next.js server component)\", MODULE_1 => \"[project]/app/layout.tsx [app-rsc] (ecmascript, Next.js server component)\", MODULE_2 => \"[project]/app/not-found.tsx [app-rsc] (ecmascript, Next.js server component)\", MODULE_3 => \"[project]/node_modules/next/dist/client/components/forbidden-error.js [app-rsc] (ecmascript, Next.js server component)\", MODULE_4 => \"[project]/node_modules/next/dist/client/components/unauthorized-error.js [app-rsc] (ecmascript, Next.js server component)\", MODULE_5 => \"[project]/app/auth/layout.tsx [app-rsc] (ecmascript, Next.js server component)\", MODULE_6 => \"[project]/app/auth/select-role/page.tsx [app-rsc] (ecmascript, Next.js server component)\" } [app-rsc] (ecmascript)", CHUNK_PUBLIC_PATH);
+module.exports = runtime.getOrInstantiateRuntimeModule("[project]/node_modules/next/dist/esm/build/templates/app-page.js?page=/auth/select-role/page { METADATA_0 => \"[project]/app/favicon.ico.mjs { IMAGE => \\\"[project]/app/favicon.ico (static in ecmascript)\\\" } [app-rsc] (structured image object, ecmascript, Next.js server component)\", MODULE_1 => \"[project]/app/layout.tsx [app-rsc] (ecmascript, Next.js server component)\", MODULE_2 => \"[project]/app/not-found.tsx [app-rsc] (ecmascript, Next.js server component)\", MODULE_3 => \"[project]/node_modules/next/dist/client/components/forbidden-error.js [app-rsc] (ecmascript, Next.js server component)\", MODULE_4 => \"[project]/node_modules/next/dist/client/components/unauthorized-error.js [app-rsc] (ecmascript, Next.js server component)\", MODULE_5 => \"[project]/app/auth/layout.tsx [app-rsc] (ecmascript, Next.js server component)\", MODULE_6 => \"[project]/app/auth/select-role/page.tsx [app-rsc] (ecmascript, Next.js server component)\" } [app-rsc] (ecmascript)", CHUNK_PUBLIC_PATH).exports;

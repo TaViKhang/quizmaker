@@ -1,0 +1,16 @@
+{
+  "/api/auth/[...nextauth]/route": "app/api/auth/[...nextauth]/route.js",
+  "/api/notifications/route": "app/api/notifications/route.js",
+  "/api/users/me/class-participation-analytics/route": "app/api/users/me/class-participation-analytics/route.js",
+  "/api/users/me/dashboard-summary/route": "app/api/users/me/dashboard-summary/route.js",
+  "/api/users/me/quiz-completion-analytics/route": "app/api/users/me/quiz-completion-analytics/route.js",
+  "/api/users/me/quiz-results/route": "app/api/users/me/quiz-results/route.js",
+  "/api/users/me/quizzes/route": "app/api/users/me/quizzes/route.js",
+  "/api/users/me/score-analytics/route": "app/api/users/me/score-analytics/route.js",
+  "/api/users/me/upcoming-assessments/route": "app/api/users/me/upcoming-assessments/route.js",
+  "/auth/signin/page": "app/auth/signin/page.js",
+  "/dashboard/page": "app/dashboard/page.js",
+  "/dashboard/student/page": "app/dashboard/student/page.js",
+  "/favicon.ico/route": "app/favicon.ico/route.js",
+  "/page": "app/page.js"
+}
