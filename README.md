@@ -195,7 +195,7 @@ GOOGLE_CLIENT_SECRET="your-google-client-secret"
 
 ## 🤝 Contributing
 
-We welcome contributions! Please see our [Contributing Guidelines](./CONTRIBUTING.md) for details.
+We welcome contributions!
 
 ### Development Workflow
 1. **Fork** the repository
@@ -206,7 +206,7 @@ We welcome contributions! Please see our [Contributing Guidelines](./CONTRIBUTIN
 
 ## 📄 License
 
-This project is licensed under the **MIT License** - see the [LICENSE](./LICENSE) file for details.
+This project is licensed under the **MIT License**.
 
 ## 🙏 Acknowledgments
 
