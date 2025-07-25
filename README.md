@@ -1,8 +1,6 @@
-# 🎓 OnTest - Online Assessment Platform
-
 <div align="center">
 
-![OnTest Logo](https://img.shields.io/badge/OnTest-Online%20Assessment%20Platform-blue?style=for-the-badge)
+# 🎓 OnTest - Online Testing System
 
 [![Next.js](https://img.shields.io/badge/Next.js-15-black?style=flat-square&logo=next.js)](https://nextjs.org/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5-blue?style=flat-square&logo=typescript)](https://www.typescriptlang.org/)
@@ -37,21 +35,19 @@
 - **Real-time Analytics**: Track student performance and quiz statistics
 - **Automated Grading**: Instant grading for objective questions
 - **Flexible Scheduling**: Set quiz availability windows and time limits
-- **Notifications**: Automatic notifications for new quizzes and announcements
+- **Notifications**: Automatic notifications for grading quizzes
 
 ### 👨‍🎓 For Students
 - **Interactive Quizzes**: Take quizzes with intuitive, responsive interface
 - **Progress Tracking**: Monitor performance across subjects and time
 - **Class Enrollment**: Join classes using simple join codes
 - **Instant Feedback**: Get immediate results and explanations
-- **Mobile Friendly**: Access quizzes on any device
 
 ### 🔧 System Features
 - **Google OAuth Authentication**: Secure login with Google accounts
 - **Role-based Access Control**: Automatic teacher/student role management
 - **Real-time Notifications**: Stay updated with class activities
 - **Comprehensive Analytics**: Performance insights and trends
-- **Responsive Design**: Works seamlessly on desktop and mobile
 - **Dark/Light Theme**: Customizable user interface
 
 ## 🛠️ Tech Stack
@@ -71,12 +67,6 @@
 - **Authentication**: [NextAuth.js 4](https://next-auth.js.org/) with Google OAuth
 - **API**: Next.js API Routes
 
-### Development & Deployment
-- **Package Manager**: npm
-- **Linting**: ESLint + TypeScript ESLint
-- **Deployment**: [Vercel](https://vercel.com/) (recommended)
-- **Database Hosting**: [Supabase](https://supabase.com/) / [Railway](https://railway.app/)
-
 ## 🚀 Quick Start
 
 ### Prerequisites
@@ -89,8 +79,8 @@
 
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/your-username/ontest.git
-   cd ontest
+   git clone https://github.com/TaViKhang/quizmaker.git
+   cd my-project
    ```
 
 2. **Install dependencies**
@@ -100,27 +90,22 @@
 
 3. **Set up environment variables**
    ```bash
-   cp .env.example .env
+   cp .env.example .env.local
    ```
 
-   Configure your `.env` file with these variables:
+   Configure your environment variables:
    ```env
-   # Database (PostgreSQL)
-   DATABASE_URL="postgresql://username:password@localhost:5432/your_database_name?schema=public"
+   # Database
+   DATABASE_URL="postgresql://username:password@localhost:5432/your-database-name"
 
    # NextAuth.js
    NEXTAUTH_URL="http://localhost:3000"
-   NEXTAUTH_SECRET="your-generated-secret-key"
+   NEXTAUTH_SECRET="your-secret-key"
 
    # Google OAuth (Required - Get from Google Cloud Console)
-   GOOGLE_CLIENT_ID="your-google-client-id.apps.googleusercontent.com"
-   GOOGLE_CLIENT_SECRET="GOCSPX-your-google-client-secret"
+   GOOGLE_CLIENT_ID="your-google-client-id"
+   GOOGLE_CLIENT_SECRET="your-google-client-secret"
    ```
-
-   **Important**:
-   - Replace database credentials with your PostgreSQL setup
-   - Generate NEXTAUTH_SECRET: `openssl rand -base64 32`
-   - Get Google OAuth credentials from Google Cloud Console
 
 4. **Set up the database**
    ```bash
@@ -165,10 +150,8 @@ OnTest uses **Google OAuth** for secure, streamlined authentication:
 ## 📖 Documentation
 
 - **[📋 Installation Guide](./INSTALLATION.md)** - Detailed setup instructions
-- **[👥 User Guide](./USER_GUIDE.md)** - How to use the platform
-- **[🔌 API Documentation](./API.md)** - API endpoints and usage
-- **[🎬 Demo Script](./DEMO_SCRIPT.md)** - Video demo guidelines
-- **[🚀 Deployment Guide](./DEPLOYMENT.md)** - Production deployment options
+- **[🎬 Demo Script](https://www.youtube.com/watch?v=zX8meVmxAj4)** - Video demo features
+- **[🔌 Report](./filename.pdf)** - Report documentation
 
 ## 🏗️ Architecture
 
@@ -199,13 +182,6 @@ Users (Teachers/Students)
 - 🚫 **SQL Injection Prevention** via Prisma ORM
 - ⏱️ **Rate Limiting** on API endpoints
 
-## 🚀 Deployment
-
-### Vercel (Recommended)
-1. **Connect your repository** to Vercel
-2. **Set environment variables** in Vercel dashboard
-3. **Deploy automatically** on every push
-
 ### Environment Variables
 ```env
 # Required
@@ -218,7 +194,7 @@ GOOGLE_CLIENT_SECRET="your-google-client-secret"
 
 ## 🤝 Contributing
 
-We welcome contributions! Please see our [Contributing Guidelines](./CONTRIBUTING.md) for details.
+We welcome contributions!
 
 ### Development Workflow
 1. **Fork** the repository
@@ -229,7 +205,7 @@ We welcome contributions! Please see our [Contributing Guidelines](./CONTRIBUTIN
 
 ## 📄 License
 
-This project is licensed under the **MIT License** - see the [LICENSE](./LICENSE) file for details.
+This project is licensed under the **MIT License**.
 
 ## 🙏 Acknowledgments
 
@@ -245,6 +221,6 @@ This project is licensed under the **MIT License** - see the [LICENSE](./LICENSE
 
 **Made with ❤️ for Education**
 
-[⭐ Star this repo](https://github.com/your-username/eduasses) • [🐛 Report Bug](https://github.com/your-username/eduasses/issues) • [💡 Request Feature](https://github.com/your-username/eduasses/issues)
+[⭐ Star this repo](https://github.com/TaViKhang/quizmaker) • [🐛 Report Bug](https://github.com/your-username/eduasses/issues) • [💡 Request Feature](https://github.com/your-username/eduasses/issues)
 
 </div>
