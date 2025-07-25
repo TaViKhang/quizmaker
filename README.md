@@ -1,4 +1,4 @@
-# 🎓 EduAsses - Online Assessment Platform
+# 🎓 OnTest - Online Testing System
 
 <div align="center">
 
