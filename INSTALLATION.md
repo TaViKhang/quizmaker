@@ -398,4 +398,3 @@ psql your_database_name < backup.sql
 
 ---
 
-**Need more help?** Check our [User Guide](./USER_GUIDE.md) or [API Documentation](./API.md).
