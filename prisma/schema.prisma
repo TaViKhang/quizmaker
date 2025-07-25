@@ -1,0 +1,432 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// Core user model - handles authentication and role-based access control
+// Users can be either teachers who create classes and quizzes, or students who take quizzes
+model User {
+  id              String            @id @default(cuid())
+  name            String?           // User's display name
+  email           String            @unique // Primary identifier for authentication
+  emailVerified   DateTime?         // Tracks whether the email has been verified
+  image           String?           // Profile image URL
+  password        String?           // Hashed password (null for OAuth users)
+  role            Role?             // TEACHER or STUDENT - determines permissions
+  createdAt       DateTime          @default(now())
+  updatedAt       DateTime          @updatedAt
+
+  // Relationships
+  accounts        Account[]         // OAuth accounts linked to this user
+  teachingClasses Class[]           @relation("TeachingClasses") // Classes taught by this user
+  enrolledClasses ClassEnrollment[] // Classes this user is enrolled in (as student)
+  notifications   Notification[]    // Notifications sent to this user
+  questionBanks   QuestionBank[]    // Question banks created by this user
+  createdQuizzes  Quiz[]            @relation("CreatedQuizzes") // Quizzes created by this user
+  attempts        QuizAttempt[]     // Quiz attempts made by this user
+  quizTemplates   QuizTemplate[]    // Quiz templates created by this user
+  sessions        Session[]         // Active sessions for this user
+  scoreAnalytics  ScoreAnalytics[]
+  subjectPerformance SubjectPerformance[]
+  uploadedMaterials Material[]        @relation("UploadedMaterials") // Materials uploaded by this user
+}
+
+// OAuth account information for users who sign in through external providers
+model Account {
+  id                String  @id @default(cuid())
+  userId            String  // Foreign key to User
+  type              String  // Type of the account (oauth, email, etc.)
+  provider          String  // Provider name (Google, Facebook, etc.)
+  providerAccountId String  // User ID at the provider
+  refresh_token     String?
+  access_token      String?
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?
+  session_state     String?
+  user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId]) // Ensures unique provider accounts
+}
+
+// Session information for authenticated users
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String   // Foreign key to User
+  expires      DateTime // When the session expires
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+// Manages email verification tokens
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+}
+
+// Core quiz model - represents an assessment created by a teacher
+// Quizzes can exist independently or as part of a class
+model Quiz {
+  id               String        @id @default(cuid())
+  title            String        // Quiz title
+  description      String?       // Optional description
+  timeLimit        Int           // Time limit in minutes
+  authorId         String        // Foreign key to User (teacher) who created this quiz
+  createdAt        DateTime      @default(now())
+  updatedAt        DateTime      @updatedAt
+  isActive         Boolean       @default(true) // Whether the quiz is currently active
+  accessCode       String?       // Private access code for the quiz
+  category         String?       // Subject category (Math, Science, etc.)
+  classId          String?       // Optional foreign key to Class (null if independent quiz)
+  endDate          DateTime?     // When the quiz becomes unavailable
+  isPublished      Boolean       @default(false) // Whether the quiz is published and visible to students
+  maxAttempts      Int?          // Maximum number of attempts allowed (null = unlimited)
+  passingScore     Float?        // Minimum score required to pass (percentage)
+  showResults      Boolean       @default(true) // Whether to show students their results immediately
+  shuffleQuestions Boolean       @default(false) // Whether to randomize question order for students
+  startDate        DateTime?     // When the quiz becomes available
+  tags             String[]      // Tags for categorizing and searching
+  isPublic         Boolean       @default(false) // Whether the quiz is public (accessible to all registered users)
+  publicAccessCode String?       @unique // Public access code for sharing the quiz
+  
+  // Relationships
+  questions        Question[]    // Questions included in this quiz
+  author           User          @relation("CreatedQuizzes", fields: [authorId], references: [id])
+  class            Class?        @relation(fields: [classId], references: [id]) // Optional class this quiz belongs to
+  attempts         QuizAttempt[] // Attempts made on this quiz
+}
+
+// Represents a question in a quiz or question bank
+// Supports multiple question types (multiple choice, essay, etc.)
+model Question {
+  id             String        @id @default(cuid())
+  quizId         String?       // Foreign key to Quiz (null if in question bank only)
+  content        String        // Question text/stem
+  type           QuestionType  // Type of question (multiple choice, essay, etc.)
+  points         Int           @default(1) // Point value for this question
+  order          Int           // Display order within the quiz
+  category       String?       // Subject category for organizing questions
+  difficulty     Int?          // Difficulty level (1-5 typically)
+  explanation    String?       // Explanation of the answer for review
+  mediaType      MediaType?    // Type of attached media (image, video, etc.)
+  mediaUrl       String?       // URL to attached media file
+  metadata       Json?         // Additional configuration specific to question type
+  questionBankId String?       // Foreign key to QuestionBank (if part of a bank)
+  quizTemplateId String?       // Foreign key to QuizTemplate (if part of a template)
+  tags           String[]      // Tags for categorizing and searching
+  
+  // Relationships
+  answers        Answer[]      // Student answers to this question
+  options        Option[]      // Options for this question (for multiple choice, etc.)
+  questionBank   QuestionBank? @relation(fields: [questionBankId], references: [id])
+  quiz           Quiz?         @relation(fields: [quizId], references: [id])
+  quizTemplate   QuizTemplate? @relation(fields: [quizTemplateId], references: [id])
+}
+
+// Represents an option/choice for a question (multiple choice, matching, etc.)
+model Option {
+  id         String   @id @default(cuid())
+  questionId String   // Foreign key to Question
+  content    String   // Text content of the option
+  isCorrect  Boolean  // Whether this option is correct
+  order      Int      // Display order of the option
+  group      String?  // For grouping options (used in matching questions)
+  matchId    String?  // For matching questions - links to matching pair
+  position   Int?     // For fill-in-the-blank questions - position in the text
+  question   Question @relation(fields: [questionId], references: [id])
+}
+
+// Represents a student's attempt at a quiz
+model QuizAttempt {
+  id                 String    @id @default(cuid())
+  quizId             String    // Foreign key to Quiz
+  userId             String    // Foreign key to User (student)
+  startedAt          DateTime  @default(now()) // When the attempt was started
+  completedAt        DateTime? // When the attempt was completed (null if in progress)
+  score              Float?    // Final score (percentage)
+  ipAddress          String?   // IP address where the attempt was made
+  timeSpent          Int?      // Time spent in seconds
+  userAgent          String?   // Browser/device information
+  percentile         Float?    // Percentile rank compared to class
+  averageResponseTime Int?     // Average time to answer questions (seconds)
+  
+  // Relationships
+  answers            Answer[]  // Student's answers for this attempt
+  quiz               Quiz      @relation(fields: [quizId], references: [id])
+  user               User      @relation(fields: [userId], references: [id])
+}
+
+// Represents a student's answer to a question
+model Answer {
+  id               String      @id @default(cuid())
+  attemptId        String      // Foreign key to QuizAttempt
+  questionId       String      // Foreign key to Question
+  selectedOption   String?     // ID of selected option (legacy field for single choice)
+  selectedOptionIds String[]   @default([]) // Array of selected option IDs (for multiple choice)
+  textAnswer       String?     // Text answer (for essay, short answer, etc.)
+  isCorrect        Boolean?    // Whether the answer is correct (null if pending review)
+  score            Float?      // Score for this answer (null if pending review)
+  feedback         String?     // Teacher feedback on this answer
+  
+  // Relationships
+  attempt          QuizAttempt @relation(fields: [attemptId], references: [id])
+  question         Question    @relation(fields: [questionId], references: [id])
+}
+
+// Represents a class/course taught by a teacher with enrolled students
+// Classes can be public (openly joinable) or private (require code)
+model Class {
+  id            String              @id @default(cuid())
+  name          String              // Class name
+  description   String?             // Optional description
+  subject       String?             // Subject of the class
+  type          ClassType           @default(PRIVATE) // PUBLIC or PRIVATE - determines access control
+  code          String?             @unique // Join code for students to enroll
+  coverImage    String?             // URL for class cover image
+  isActive      Boolean             @default(true) // Whether the class is currently active
+  maxStudents   Int?                // Maximum number of students allowed (null = unlimited)
+  createdAt     DateTime            @default(now())
+  updatedAt     DateTime            @updatedAt
+  teacherId     String              // Foreign key to User (teacher)
+  
+  // Relationships
+  teacher       User                @relation("TeachingClasses", fields: [teacherId], references: [id])
+  announcements ClassAnnouncement[] // Announcements posted to this class
+  students      ClassEnrollment[]   // Students enrolled in this class
+  quizzes       Quiz[]              // Quizzes associated with this class
+  materials     Material[]          // Learning materials for this class
+  classPerformance ClassPerformance[] // Performance analytics for this class
+}
+
+// Represents an announcement posted to a class
+model ClassAnnouncement {
+  id        String   @id @default(cuid())
+  classId   String   // Foreign key to Class
+  title     String   // Announcement title
+  content   String   // Announcement content
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  class     Class    @relation(fields: [classId], references: [id])
+}
+
+// Represents a student's enrollment in a class
+// Junction table for many-to-many relationship between Class and User
+model ClassEnrollment {
+  id         String   @id @default(cuid())
+  classId    String   // Foreign key to Class
+  studentId  String   // Foreign key to User (student)
+  joinedAt   DateTime @default(now())
+  lastActive DateTime @default(now()) // When the student was last active in the class
+  
+  // Relationships
+  class      Class    @relation(fields: [classId], references: [id])
+  student    User     @relation(fields: [studentId], references: [id])
+
+  @@unique([classId, studentId]) // Prevents duplicate enrollments
+}
+
+// Represents a collection of questions created by a teacher
+// Used for organizing and reusing questions across multiple quizzes
+model QuestionBank {
+  id          String     @id @default(cuid())
+  name        String     // Bank name
+  description String?    // Optional description
+  category    String?    // Subject category
+  tags        String[]   // Tags for categorizing and searching
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+  teacherId   String     // Foreign key to User (teacher)
+  
+  // Relationships
+  questions   Question[] // Questions in this bank
+  teacher     User       @relation(fields: [teacherId], references: [id])
+}
+
+// Represents a template for creating quizzes
+// Similar to quiz but without specific questions or assignments
+model QuizTemplate {
+  id               String     @id @default(cuid())
+  title            String     // Template title
+  description      String?    // Optional description
+  category         String?    // Subject category
+  tags             String[]   // Tags for categorizing and searching
+  timeLimit        Int?       // Default time limit in minutes
+  maxAttempts      Int?       // Default maximum attempts
+  passingScore     Float?     // Default passing score (percentage)
+  shuffleQuestions Boolean    @default(false) // Whether to randomize questions by default
+  showResults      Boolean    @default(true) // Whether to show results by default
+  createdAt        DateTime   @default(now())
+  updatedAt        DateTime   @updatedAt
+  teacherId        String     // Foreign key to User (teacher)
+  
+  // Relationships
+  questions        Question[] // Questions in this template
+  teacher          User       @relation(fields: [teacherId], references: [id])
+}
+
+// Represents a notification sent to a user
+model Notification {
+  id           String           @id @default(cuid())
+  userId       String           // Foreign key to User (recipient)
+  title        String           // Notification title
+  message      String           // Notification content
+  isRead       Boolean          @default(false) // Whether the notification has been read
+  category     NotificationType // Type of notification (quiz reminder, etc.)
+  resourceId   String?          // ID of the related resource (quiz, class, etc.)
+  resourceType String?          // Type of the related resource ("quiz", "class", etc.)
+  createdAt    DateTime         @default(now())
+  expiredAt    DateTime?        // When the notification expires
+  
+  // Relationships
+  user         User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+// Represents a log entry for auditing user actions
+model ActivityLog {
+  id           String   @id @default(cuid())
+  action       String   // Action performed ("create", "update", "delete", etc.)
+  resourceId   String   // ID of the related resource
+  resourceType String   // Type of the related resource
+  userId       String   // ID of the user who performed the action
+  details      Json?    // Additional details about the action
+  createdAt    DateTime @default(now())
+}
+
+// Defines user roles in the system
+enum Role {
+  TEACHER // Can create and manage classes, quizzes, etc.
+  STUDENT // Can join classes and take quizzes
+}
+
+// Defines question types supported by the system
+enum QuestionType {
+  MULTIPLE_CHOICE // Multiple options with one or more correct answers
+  ESSAY           // Free-form text response requiring manual grading
+  TRUE_FALSE      // Boolean true/false question
+  SHORT_ANSWER    // Brief text answer with automatic grading
+  MATCHING        // Match items from two lists
+  FILL_BLANK      // Text with blanks to fill in
+  CODE            // Code writing/editing question
+  FILE_UPLOAD     // Upload file as answer
+}
+
+// Defines class types for access control
+enum ClassType {
+  PUBLIC  // Visible to all users, anyone can join
+  PRIVATE // Requires a code to join
+}
+
+// Defines media types that can be attached to questions
+enum MediaType {
+  IMAGE    // Image file
+  VIDEO    // Video file
+  AUDIO    // Audio file
+  DOCUMENT // Document file (PDF, etc.)
+}
+
+// Defines types of notifications sent to users
+enum NotificationType {
+  NEW_QUIZ      // When a new quiz is available
+  QUIZ_REMINDER // Reminder about an upcoming quiz
+  QUIZ_GRADED   // When a quiz has been graded
+  CLASS_JOINED  // When a student joins a class
+  CLASS_UPDATED // When a class is updated
+  SYSTEM        // System-level notifications
+}
+
+// Models for Score Analytics
+
+// Represents aggregated score analytics data for a student
+model ScoreAnalytics {
+  id              String   @id @default(cuid())
+  userId          String   // Foreign key to User
+  period          String   // Analysis period (e.g.: "2023-05", "2023-Q2")
+  averageScore    Float    // Average score for the period
+  quizzesAttempted Int     // Number of quizzes attempted
+  quizzesCompleted Int     // Number of quizzes completed
+  bestSubject     String?  // Best performing subject
+  bestScore       Float?   // Score in best subject
+  worstSubject    String?  // Worst performing subject
+  worstScore      Float?   // Score in worst subject
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+  
+  // Relationships
+  user            User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  @@unique([userId, period])
+}
+
+// Represents performance data for a specific subject
+model SubjectPerformance {
+  id            String   @id @default(cuid())
+  userId        String   // Foreign key to User
+  subject       String   // Subject name
+  period        String   // Analysis period (e.g.: "2023-05", "2023-Q2")
+  averageScore  Float    // Average score
+  attemptCount  Int      // Number of attempts
+  trend         Float?   // Trend (% change from previous period)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  
+  // Relationships
+  user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  @@unique([userId, subject, period])
+}
+
+// Represents aggregated performance data for a class
+model ClassPerformance {
+  id                String   @id @default(cuid())
+  classId           String   // Foreign key to Class
+  period            String   // Analysis period (e.g.: "2023-05", "2023-Q2")
+  averageScore      Float    // Average class score
+  averageCompletion Float    // Average completion rate
+  quizCount         Int      // Number of assigned quizzes
+  highestScore      Float    // Highest score
+  lowestScore       Float    // Lowest score
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+  
+  // Relationships
+  class             Class    @relation(fields: [classId], references: [id], onDelete: Cascade)
+  
+  @@unique([classId, period])
+}
+
+// Represents a learning material for a class
+model Material {
+  id            String       @id @default(cuid())
+  title         String       // Title of the material
+  description   String?      // Optional description
+  type          MaterialType // Type of material (FILE, LINK, VIDEO_EMBED, DOCUMENT)
+  url           String?      // URL for LINK, VIDEO_EMBED, or external file
+  filePath      String?      // Path if stored locally/S3
+  fileName      String?      // Original file name
+  fileSize      Int?         // File size in bytes
+  mimeType      String?      // MIME type of the file
+  classId       String       // Foreign key to Class
+  uploadedById  String       // Foreign key to User (teacher who uploaded)
+  createdAt     DateTime     @default(now())
+  updatedAt     DateTime     @updatedAt
+
+  // Relationships
+  class         Class        @relation(fields: [classId], references: [id], onDelete: Cascade)
+  uploader      User         @relation("UploadedMaterials", fields: [uploadedById], references: [id], onDelete: Cascade)
+}
+
+// Defines types of learning materials
+enum MaterialType {
+  FILE        // Generic uploaded file
+  LINK        // Web link
+  VIDEO_EMBED // Embedded video (e.g., YouTube, Vimeo)
+  DOCUMENT    // PDF, Word document, etc.
+}

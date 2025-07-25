@@ -1,0 +1,621 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  /* Root variables - Light Mode */
+  :root {
+    /* Background & Foreground */
+    --background: 0 0% 100%;
+    --foreground: 222.2 47.4% 11.2%;
+
+    /* Card & Popover */
+    --card: 0 0% 100%;
+    --card-foreground: 222.2 47.4% 11.2%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 222.2 47.4% 11.2%;
+    
+    /* Primary - Navy HSL(222.2, 47.4%, 11.2%) - #0f172a */
+    --primary: 222.2 47.4% 11.2%;
+    --primary-foreground: 210 40% 98%;
+    
+    /* Secondary - Slate HSL(210, 40%, 96.1%) - #f1f5f9 */
+    --secondary: 210 40% 96.1%;
+    --secondary-foreground: 222.2 47.4% 11.2%;
+    
+    /* Accent - Emerald HSL(160, 66%, 44%) - #10b981 */
+    --accent: 160 66% 44%;
+    --accent-foreground: 222.2 47.4% 11.2%;
+    
+    /* Muted */
+    --muted: 210 40% 96.1%;
+    --muted-foreground: 215.4 16.3% 46.9%;
+    
+    /* Status Colors */
+    --destructive: 0 84% 60%; /* HSL(0, 84%, 60%) - #ef4444 */
+    --destructive-foreground: 210 40% 98%;
+    --success: 142 71% 45%; /* HSL(142, 71%, 45%) - #22c55e */
+    --success-foreground: 210 40% 98%;
+    --warning: 38 92% 50%; /* HSL(38, 92%, 50%) - #f59e0b */
+    --warning-foreground: 222.2 47.4% 11.2%;
+    --info: 221 83% 53%; /* HSL(221, 83%, 53%) - #3b82f6 */
+    --info-foreground: 210 40% 98%;
+    
+    /* Border, Input, Ring */
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+    --ring: 160 66% 44%; /* Using accent color for ring */
+    
+    /* Chart Colors */
+    --chart-1: 12 76% 61%;
+    --chart-2: 173 58% 39%;
+    --chart-3: 197 37% 24%;
+    --chart-4: 43 74% 66%;
+    --chart-5: 27 87% 67%;
+    
+    /* Border Radius */
+    --radius: 0.5rem; /* 8px */
+    --radius-sm: 0.25rem; /* 4px */
+    --radius-md: calc(var(--radius) - 2px); /* 6px */
+    --radius-lg: calc(var(--radius) + 2px); /* 10px */
+    --radius-full: 9999px;
+    
+    /* Sidebar */
+    --sidebar-background: 220 33% 98%;
+    --sidebar-foreground: 215 25% 27%;
+    --sidebar-primary: 220 60% 36%;
+    --sidebar-primary-foreground: 0 0% 98%;
+    --sidebar-accent: 160 66% 44%;
+    --sidebar-accent-foreground: 0 0% 100%;
+    --sidebar-border: 215 16% 90%;
+    --sidebar-ring: 160 66% 44%;
+
+    /* Shadows */
+    --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+    --shadow: 0 1px 3px rgba(0, 0, 0, 0.1), 0 1px 2px rgba(0, 0, 0, 0.06);
+    --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.05), 0 2px 4px rgba(0, 0, 0, 0.05);
+    --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.04), 0 4px 6px rgba(0, 0, 0, 0.05);
+    --shadow-xl: 0 20px 25px rgba(0, 0, 0, 0.03), 0 8px 10px rgba(0, 0, 0, 0.04);
+
+    /* Additional Sidebar Variables */
+    --sidebar-width: 240px;
+    --sidebar-collapsed-width: 70px;
+    
+    /* Sidebar Colors */
+    --sidebar-bg: var(--background);
+    --sidebar-border: var(--border);
+    --sidebar-foreground: var(--foreground);
+    --sidebar-muted-foreground: var(--muted-foreground);
+    --sidebar-accent: var(--accent);
+    --sidebar-primary: var(--primary);
+    --sidebar-primary-foreground: var(--primary-foreground);
+  }
+
+  /* Dark Mode Variables */
+  .dark {
+    /* Background & Foreground */
+    --background: 222.2 47.4% 11.2%;
+    --foreground: 210 40% 98%;
+    
+    /* Card & Popover */
+    --card: 222.2 47.4% 11.2%;
+    --card-foreground: 210 40% 98%;
+    --popover: 222.2 47.4% 11.2%;
+    --popover-foreground: 210 40% 98%;
+    
+    /* Primary - Navy in Dark Mode */
+    --primary: 210 40% 98%;
+    --primary-foreground: 222.2 47.4% 11.2%;
+    
+    /* Secondary - Slate in Dark Mode */
+    --secondary: 217.2 32.6% 17.5%;
+    --secondary-foreground: 210 40% 98%;
+    
+    /* Accent - Emerald in Dark Mode */
+    --accent: 160 66% 44%;
+    --accent-foreground: 210 40% 98%;
+    
+    /* Muted */
+    --muted: 217.2 32.6% 17.5%;
+    --muted-foreground: 215 20.2% 65.1%;
+    
+    /* Status Colors */
+    --destructive: 0 63% 31%;
+    --destructive-foreground: 210 40% 98%;
+    --success: 142 76% 50%;
+    --success-foreground: 210 40% 98%;
+    --warning: 38 95% 55%;
+    --warning-foreground: 210 40% 98%;
+    --info: 221 83% 60%;
+    --info-foreground: 210 40% 98%;
+    
+    /* Border, Input, Ring */
+    --border: 217.2 32.6% 17.5%;
+    --input: 217.2 32.6% 17.5%;
+    --ring: 160 66% 44%; /* Using accent color for ring */
+    
+    /* Chart Colors */
+    --chart-1: 220 70% 55%;
+    --chart-2: 160 60% 50%;
+    --chart-3: 30 80% 60%;
+    --chart-4: 280 65% 65%;
+    --chart-5: 340 75% 60%;
+    
+    /* Sidebar Dark Mode */
+    --sidebar-background: 220 45% 16%;
+    --sidebar-foreground: 210 40% 98%;
+    --sidebar-primary: 220 50% 50%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 160 84% 50%;
+    --sidebar-accent-foreground: 0 0% 100%;
+    --sidebar-border: 215 14% 28%;
+    --sidebar-ring: 160 84% 50%;
+
+    /* Shadows for Dark Mode */
+    --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3);
+    --shadow: 0 1px 3px rgba(0, 0, 0, 0.3), 0 1px 2px rgba(0, 0, 0, 0.4);
+    --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.3), 0 2px 4px rgba(0, 0, 0, 0.3);
+    --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.25), 0 4px 6px rgba(0, 0, 0, 0.2);
+    --shadow-xl: 0 20px 25px rgba(0, 0, 0, 0.3), 0 8px 10px rgba(0, 0, 0, 0.25);
+
+    /* Sidebar Dark Mode */
+    --sidebar-bg: var(--background);
+    --sidebar-border: var(--border);
+    --sidebar-foreground: var(--foreground);
+    --sidebar-muted-foreground: var(--muted-foreground);
+    --sidebar-accent: var(--accent);
+    --sidebar-primary: var(--primary);
+    --sidebar-primary-foreground: var(--primary-foreground);
+  }
+}
+
+@layer base {
+  /* Base HTML Setup */
+  html {
+    scroll-behavior: smooth;
+    font-family: var(--font-sans), system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    font-feature-settings: "rlig" 1, "calt" 1;
+    letter-spacing: -0.01em;
+    line-height: 1.6;
+  }
+
+  /* Code font - Roboto Mono */
+  pre, code, kbd {
+    font-family: var(--font-mono), Consolas, Monaco, 'Lucida Console', monospace;
+  }
+
+  /* Border Setup */
+  * {
+    @apply border-border;
+  }
+  
+  /* Typography Scale */
+  h1, .h1 {
+    @apply text-h1 font-bold tracking-tight;
+    line-height: 1.2;
+  }
+  
+  h2, .h2 {
+    @apply text-h2 font-semibold tracking-tight;
+    line-height: 1.3;
+  }
+  
+  h3, .h3 {
+    @apply text-h3 font-semibold;
+    line-height: 1.4;
+  }
+  
+  h4, .h4 {
+    @apply text-h4 font-medium;
+    line-height: 1.5;
+  }
+
+  /* Paragraph */
+  p {
+    @apply text-body;
+    margin-bottom: 1rem;
+  }
+
+  /* Improved card styling */
+  .card {
+    @apply border border-border bg-card text-card-foreground shadow-sm transition-all duration-200;
+    box-shadow: var(--shadow);
+  }
+
+  .dark .card {
+    box-shadow: var(--shadow);
+  }
+
+  .card:hover {
+    box-shadow: var(--shadow-md);
+  }
+
+  .dark .card:hover {
+    box-shadow: var(--shadow-md);
+  }
+
+  /* Button improvements */
+  .button, button {
+    font-weight: 500;
+    letter-spacing: -0.01em;
+  }
+
+  /* Focus outline */
+  :focus-visible {
+    @apply outline-2 outline-offset-2 outline-ring;
+  }
+  
+  /* Improved contrast for disabled elements */
+  .dark [disabled] {
+    opacity: 0.6;
+  }
+
+  /* Ensure consistent focus styles for better accessibility */
+  :focus-visible {
+    @apply outline-2 outline-offset-2 outline-ring;
+  }
+  
+  /* Improve text rendering */
+  h1, h2, h3, h4, h5, h6 {
+    @apply text-balance;
+  }
+  
+  p {
+    @apply text-pretty hyphens-auto;
+  }
+}
+
+@layer components {
+  /* Text Size Classes */
+  .text-h1 {
+    font-size: 2.25rem; /* 36px */
+    line-height: 1.2;
+    font-weight: 700;
+  }
+  
+  .text-h2 {
+    font-size: 1.5rem; /* 24px */
+    line-height: 1.3;
+    font-weight: 600;
+  }
+  
+  .text-h3 {
+    font-size: 1.25rem; /* 20px */ 
+    line-height: 1.4;
+    font-weight: 600;
+  }
+  
+  .text-h4 {
+    font-size: 1.125rem; /* 18px */
+    line-height: 1.5;
+    font-weight: 500;
+  }
+  
+  .text-body {
+    font-size: 1rem; /* 16px */
+    line-height: 1.6;
+    font-weight: 400;
+  }
+  
+  .text-small {
+    font-size: 0.875rem; /* 14px */
+    line-height: 1.6;
+    font-weight: 400;
+  }
+  
+  .text-xs {
+    font-size: 0.75rem; /* 12px */
+    line-height: 1.6;
+    font-weight: 400;
+  }
+  
+  /* Common animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideRight {
+    0% {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+    100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes fadeSlideIn {
+  from {
+    opacity: 0;
+    transform: translateX(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes pulse-slow {
+  0%, 100% {
+    opacity: 0.5;
+  }
+  50% {
+    opacity: 0.7;
+  }
+}
+
+@keyframes gradient {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+  @keyframes floatUp {
+    0% {
+      transform: translateY(10px);
+    }
+    50% {
+      transform: translateY(-5px);
+    }
+    100% {
+      transform: translateY(0);
+    }
+  }
+  
+  /* Animation classes */
+  .animate-fadeIn {
+    animation: fadeIn 0.5s ease-in-out forwards;
+  }
+  
+  .animate-slideUp {
+    animation: slideUp 0.5s ease-out forwards;
+  }
+  
+  .animate-slideRight {
+    animation: slideRight 0.5s ease-out forwards;
+  }
+  
+  .animate-fadeSlideIn {
+    animation: fadeSlideIn 0.5s ease-out forwards;
+  }
+  
+  .animate-pulse-slow {
+    animation: pulse-slow 3s ease-in-out infinite;
+  }
+  
+  .animate-gradient {
+    animation: gradient 15s ease infinite;
+  }
+  
+  .animate-floatUp {
+    animation: floatUp 2.5s ease-in-out infinite;
+  }
+  
+  /* Animation delay utilities */
+  .animation-delay-100 {
+    animation-delay: 100ms;
+  }
+  
+  .animation-delay-200 {
+    animation-delay: 200ms;
+  }
+  
+  .animation-delay-300 {
+    animation-delay: 300ms;
+  }
+  
+  .animation-delay-400 {
+    animation-delay: 400ms;
+  }
+  
+  .animation-delay-500 {
+    animation-delay: 500ms;
+  }
+  
+  .animation-delay-700 {
+    animation-delay: 700ms;
+  }
+  
+  /* Gradient background utilities */
+  .bg-300\% {
+    background-size: 300% 300%;
+}
+
+  /* Layout utilities */
+.content-wrapper {
+    @apply container mx-auto px-4 py-8 md:px-6 lg:px-8;
+  }
+  
+  .grid-auto-fit {
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  }
+  
+  /* OnTest specific components */
+  .OnTest-logo {
+    @apply text-primary font-bold text-xl tracking-tight;
+  }
+  
+  .OnTest-logo-dark {
+    @apply text-primary-foreground font-bold text-xl tracking-tight;
+  }
+
+  /* Loading skeleton */
+  .skeleton {
+    @apply animate-shimmer bg-gradient-to-r from-muted/50 via-muted/80 to-muted/50 bg-300%;
+    background-size: 200% 100%;
+  }
+  
+  /* Focus ring for interactive elements */
+  .focus-ring {
+    @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2;
+  }
+  
+  /* Button state effects for more tactile feedback */
+  .btn-state-effects {
+    @apply active:scale-[0.98] hover:shadow transition-all duration-200;
+  }
+  
+  /* Smooth fade for transitions */
+  .smooth-fade {
+    @apply transition-opacity duration-300 ease-in-out;
+  }
+
+  /* Sidebar Styling */
+  .bg-sidebar {
+    background-color: var(--sidebar-bg);
+  }
+
+  .border-sidebar-border {
+    border-color: var(--sidebar-border);
+  }
+
+  .text-sidebar-foreground {
+    color: var(--sidebar-foreground);
+  }
+
+  .text-sidebar-accent {
+    color: var(--sidebar-accent);
+  }
+
+  .bg-sidebar-accent {
+    background-color: var(--sidebar-accent);
+  }
+
+  .bg-sidebar-primary {
+    background-color: var(--sidebar-primary);
+  }
+
+  .text-sidebar-primary-foreground {
+    color: var(--sidebar-primary-foreground);
+  }
+}
+
+/* Print styles */
+@media print {
+  .no-print {
+    display: none !important;
+  }
+  
+  body {
+    font-size: 12pt;
+    line-height: 1.5;
+    color: #000;
+    background: #fff;
+  }
+  
+  .page-break {
+    page-break-before: always;
+  }
+}
+
+/* Responsive container widths */
+.container {
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+/* Container side paddings at different breakpoints */
+@media (min-width: 640px) {
+  .container {
+    max-width: 640px;
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+  }
+}
+
+@media (min-width: 768px) {
+  .container {
+    max-width: 768px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .container {
+    max-width: 1024px;
+    padding-left: 2rem;
+    padding-right: 2rem;
+  }
+}
+
+@media (min-width: 1280px) {
+  .container {
+    max-width: 1280px;
+  }
+}
+
+@media (min-width: 1536px) {
+  .container {
+    max-width: 1400px;
+  }
+}
+
+/* Aspect ratio utilities */
+.aspect-video {
+  aspect-ratio: 16 / 9;
+}
+
+.aspect-square {
+  aspect-ratio: 1 / 1;
+}
+
+.aspect-portrait {
+  aspect-ratio: 3 / 4;
+}
+
+/* Helper for OnTest logo */
+.OnTest-logo {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  font-weight: bold;
+  text-decoration: none;
+  transition: opacity 0.2s ease;
+}
+
+.OnTest-logo:hover {
+  opacity: 0.9;
+}
+
+/* VisuallyHidden - for accessibility */
+.visually-hidden {
+  border: 0;
+  clip: rect(0 0 0 0);
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute;
+  width: 1px;
+  white-space: nowrap;
+  word-wrap: normal;
+}
