@@ -151,7 +151,7 @@ OnTest uses **Google OAuth** for secure, streamlined authentication:
 
 - **[📋 Installation Guide](./INSTALLATION.md)** - Detailed setup instructions
 - **[🎬 Demo Script](https://www.youtube.com/watch?v=zX8meVmxAj4)** - Video demo features
-- **[🔌 Report](./filename.pdf)** - Report documentation
+- **[🔌 Report](./TaViKhang_ITITIU20226_OnTest.pdf)** - Report documentation
 
 ## 🏗️ Architecture
 
